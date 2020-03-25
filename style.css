@@ -41,6 +41,7 @@ map {
 }
 
 table { 
+	width: 100%;
     border-collapse: collapse; 
     color: rgba(10, 20, 43, 0.808);
     background-color:rgba(211, 234, 255, 0.795); 
