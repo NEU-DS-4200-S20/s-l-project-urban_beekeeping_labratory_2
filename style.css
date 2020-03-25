@@ -21,6 +21,76 @@ h1, h2, h3 {
   height: 100%;
 }
 
+.container {
+    height: 400px;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+h1 {
+    font-family: "Open Sans";
+    padding-top: 20px;
+    padding-left: 40px;
+}
+
+map {
+    height: 400px;
+    width: 500px;
+    color: rgba(10, 20, 43, 0.808);
+}
+
+table { 
+    border-collapse: collapse; 
+    color: rgba(10, 20, 43, 0.808);
+    background-color:rgba(211, 234, 255, 0.795); 
+    font-family: "Open Sans";
+}
+table thead { 
+    font-weight: bold; 
+    background-color:rgba(0, 71, 129, 0.808);
+    color: #FFF;
+    column-width: 100px;
+    cursor:default; 
+}
+
+th {
+    padding: 4px;
+}
+
+table tbody tr:hover { 
+    background-color: rgba(139, 202, 253, 0.808); 
+}
+
+td { 
+    border: solid 1px rgb(201, 201, 201); 
+    text-align: center;
+    font-size: 14px;
+    padding: 2px; 
+}
+.even { 
+    background-color: White; 
+}
+.left { 
+    text-align: left; 
+}
+.right { 
+    text-align: right; 
+}
+
+.column {
+    float: left;
+    width: 40%;
+    padding-left: 60px;
+    padding-top: 30px;
+  }
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both; 
+  }
+
 /* Fork on GitHub ribbon via https://codepo8.github.io/css-fork-on-github-ribbon/# */  
 #forkongithub a{
 	background:#00F;
