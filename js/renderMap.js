@@ -1,5 +1,4 @@
-var width = 960,
-  height = 500;
+var height = 450;
 
 var tooltip = d3.select("#map-container").append("div").attr("class", "tooltip hidden");
 
@@ -8,8 +7,9 @@ var projection = d3.geoAlbersUsa()
 var path = d3.geoPath().projection(projection);
 
 var svg = d3.select("#map-container").append("svg")
-  .attr("width", width)
+  .attr("width", '100%')
   .attr("height", height)
+  .attr('position', 'relative')
   .append("g")
   .attr("transform", "translate(-2100,-100)scale(3)");
 
@@ -39,21 +39,21 @@ function ready(error, ma, ct, nh, vt, ri, me) {
     .attr("class", "land")
     .attr("d", path)
     .attr("id", function (d, i) { return d.id; })
-    .style("fill", function (d, i) { return color(i) });
+    .style("fill", function (d, i) { return "#0000" });
 
 
   //tooltips
-  town
-    .on("mousemove", function (d, i) {
-      var mouse = d3.mouse(svg.node()).map(function (d) { return parseInt(d); });
-      tooltip
-        .classed("hidden", false)
-        .attr("style", "left:" + (mouse[0]) + "px;top:" + (mouse[1]) + "px")
-        .html(d.id)
-    })
-    .on("mouseout", function (d, i) {
-      tooltip.classed("hidden", true)
-    });
+  // town
+  //   .on("mousemove", function (d, i) {
+  //     var mouse = d3.mouse(svg.node()).map(function (d) { return parseInt(d); });
+  //     tooltip
+  //       .classed("hidden", false)
+  //       .attr("style", "left:" + (mouse[0]) + "px;top:" + (mouse[1]) + "px")
+  //       .html(d.id)
+  //   })
+  //   .on("mouseout", function (d, i) {
+  //     tooltip.classed("hidden", true)
+  //   });
 
 
 }

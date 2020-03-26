@@ -30,6 +30,19 @@ h1, h2, h3 {
 	overflow-x: hidden;
 }
 
+.map {
+	height: 100%;
+	width: 100%;
+	color: rgba(10, 20, 43, 0.808);
+}
+
+.land {
+  fill: #a1a1a1;
+  stroke: #000;
+  stroke-width: .1px;
+}
+
+
 h1 {
 	font-family: "Open Sans";
 	padding-top: 20px;
@@ -37,8 +50,8 @@ h1 {
 }
 
 map {
-	height: 400px;
-	width: 500px;
+	height: 100%;
+	width: 100%;
 	color: rgba(10, 20, 43, 0.808);
 }
 
@@ -51,6 +64,8 @@ table {
 }
 
 table thead {
+	position: sticky;
+	top: 0;
 	font-weight: bold;
 	background-color: rgba(0, 71, 129, 0.808);
 	color: #FFF;
