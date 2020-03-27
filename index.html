@@ -62,13 +62,19 @@
   <div class="vis-holder">
     <!-- Change viewbox to whatever you want, e.g. "0 0 1000 6000" This determines your aspect ratio and coordinate system -->
     <!-- Delete all the sample SVG code below after the viewbox to before the closing tag. Populate this part of the SVG with D3. -->
-    <div class="column">
-        <div class="map" id="map-container"></div>
-    </div>
-    <div class="column">
-      <div class="container">
-        <div class="table" id="table-container"></div>
+    <div class="row">
+      <div class="column">
+          <div class="map" id="map-container"></div>
       </div>
+      <div class="column">
+        <div class="container">
+          <div class="table" id="table-container"></div>
+        </div>
+      </div>
+    </div>
+       
+    <div class="row">
+        <div class="slider" id="slider-container"></div>
     </div>
   </div>
 
@@ -143,6 +149,7 @@
   <!-- <script src="static/colors.js"></script> -->
   <script src="js/renderTable.js"></script>
   <script src="js/renderMap.js"></script>
+  <script src="js/renderSlider.js"></script>
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 </body>
 
