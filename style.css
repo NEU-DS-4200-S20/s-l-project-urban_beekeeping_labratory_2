@@ -210,3 +210,15 @@ td {
 	stroke-opacity: 0.5;
 	stroke-width: 1.25px;
   }
+
+div.tooltip { 
+          position: absolute;     
+          text-align: center;     
+          width: 80px;          
+          height: 14px;         
+          padding: 2px;       
+          font: 12px sans-serif;    
+          background: #fff; 
+          border: 1px;        
+          pointer-events: none;     
+      }

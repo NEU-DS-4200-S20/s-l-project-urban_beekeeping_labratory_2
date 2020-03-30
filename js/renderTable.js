@@ -9,7 +9,7 @@ var table = d3.selectAll("#table-container").append("table"),
 thead = table.append("thead"),
 tbody = table.append("tbody");
                 
-d3.csv('data/BeeData.csv', function(data) {
+d3.csv('data/MassData.csv', function(data) {
 
     keys     = Object.keys(data[0]),
     allData  = data;
