@@ -1,14 +1,14 @@
 var formatDateIntoYear = d3.timeFormat("%Y");
 var formatDate = d3.timeFormat("%b %Y");
 
-var startDate = new Date("2004-11-01"),
-    endDate = new Date("2017-04-01");
+var startDate = new Date("2011-11-01"),
+    endDate = new Date("2019-04-01");
 
 var margin = {top:0, right:50, bottom:0, left:50},
     width = 960 -margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
-var svg = d3.select("#slider-container")
+var svg = d3.select("#slider")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height);
@@ -32,7 +32,7 @@ slider.append("line")
     .attr("class", "track-overlay")
     .call(d3.drag()
         .on("start.interrupt", function() { slider.interrupt(); })
-        .on("start drag", function() { x.invert(d3.event.x); }));
+        .on("start drag", function() { hue(x.invert(d3.event.x)); }));
 
 slider.insert("g", ".track-overlay")
     .attr("class", "ticks")
@@ -57,9 +57,9 @@ var handle = slider.insert("circle", ".track-overlay")
     .attr("r", 9);
 
 function hue(h) {
-    handle.attr("cx", x(h));
-    label
-        .attr("x", x(h))
-        .text(formatDate(h));
-    svg.style("background-color", d3.hsl(h/1000000000, 0.8, 0.8));
-    }
+  handle.attr("cx", x(h));
+  label
+    .attr("x", x(h))
+    .text(formatDate(h));
+  svg.style("background-color", d3.hsl(h/1000000000, 0.8, 0.8));
+}

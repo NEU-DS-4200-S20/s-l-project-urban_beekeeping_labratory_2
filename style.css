@@ -64,7 +64,6 @@ table {
 }
 
 table thead {
-	position: sticky;
 	top: 0;
 	font-weight: bold;
 	background-color: rgba(0, 71, 129, 0.808);
