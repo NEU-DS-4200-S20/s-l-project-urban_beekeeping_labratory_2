@@ -1,8 +1,8 @@
 var width = 600;
 var height = 450;
 
-var lowColor = '#f9f9f9'
-var highColor = '#bc2a66'
+var lowColor = '#5DADE2' 
+var highColor = '#1B4F72'
 
 var svg = d3.select("#map-container")
   .append("svg")
@@ -17,16 +17,48 @@ var tooltip = d3.select("#map-container").append("div")
         .attr("class", "tooltip")       
         .style("opacity", 0);
 
-d3.csv("data/MassData.csv", function(data) {
+
+function getData(date, count_tag) {
+
+  	d3.csv("data/MassData.csv", function(data) {
+
+	var filtered = data.filter(function(d) {
+   		return d.Date.includes(date); 
+	});
+
+	data = filtered
+
+	console.log(data)
+
+	var subset = d3.nest()
+  		.key(function(d) { return d.ZipCode;})
+  		.rollup(function(d) { 
+   		return d3.sum(d, function(g) {
+   			switch(count_tag) {
+				case "BeeCount":
+					return g.BeeCount
+				case "BroodCount":
+					return g.BroodCount
+		    	case "HoneyCount":
+		    		return g.HoneyCount
+				default:
+   					return g.BeeCount;
+   			} 
+   		});
+  	}).entries(data);
+
+  	console.log(subset)
+
+  	data = subset
 
 	var dataArray = [];
 
 	for (var d = 0; d < data.length; d++) {
-	dataArray.push(parseFloat(data[d].BeeCount));
-	}	
+		dataArray.push(parseFloat(data[d].value));
+   	};	
 
 	var minVal = d3.min(dataArray);
-	var maxVal = 50
+	var maxVal = d3.max(dataArray) / 2;
 	// var minVal = 0
 	// var maxVal = 15
 	var ramp = d3.scaleLinear().domain([minVal,maxVal]).range([lowColor,highColor])
@@ -37,10 +69,10 @@ d3.csv("data/MassData.csv", function(data) {
 		for (var i = 0; i < data.length; i++) {
 
 	      // Grab State Name
-	      	var dataZipcode = data[i].ZipCode;
+	      	var dataZipcode = data[i].key;
 
 	      	// Grab data value 
-	      	var dataValue = data[i].BeeCount;
+	      	var dataValue = data[i].value
 	     
 	      	// Find the corresponding state inside the GeoJSON
 	      	for (var j = 0; j < geojson.features.length; j++) {
@@ -70,12 +102,19 @@ d3.csv("data/MassData.csv", function(data) {
 	      .style("stroke", "#fff")
 	      .style("stroke-width", "1")
 	      .style("fill", function(d) {
-	      	return ramp(d.properties.value)})
-	      .on("mouseover", function(d) {    
+	      	if (d.properties.value == undefined) {
+	      		return "#ccc"
+	      	}
+	      	else{
+	      		return ramp(d.properties.value)
+	      	}})
+	      .on("mouseover", function(d) {
+
             tooltip.transition()    
             .duration(200)    
-            .style("opacity", .9);    
-            tooltip.html(d.properties.ZCTA5CE10)  
+            .style("opacity", .9);  
+            tooltip.html("<b/>" + "Zip Code: " + "<b/>" + d.properties.ZCTA5CE10 + "</br>" + "<b/>" 
+            	+ "BeeCount: " + "<b/>" + d.properties.value)
             .style("left", (d3.event.pageX + 15) + "px")   
             .style("top", (d3.event.pageY - 28) + "px");  
           })          
@@ -85,6 +124,11 @@ d3.csv("data/MassData.csv", function(data) {
             .style("opacity", 0); 
           });
 
-})});
+})})};
+
+
+getData("2018-06", "BeeCount")
+
+
 
 
