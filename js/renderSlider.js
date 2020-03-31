@@ -1,12 +1,13 @@
 var formatDateIntoYear = d3.timeFormat("%Y");
 var formatDate = d3.timeFormat("%b %Y");
+var formatDateForMap = d3.timeFormat("%Y-%m");
 
 var startDate = new Date("2011-11-01"),
     endDate = new Date("2019-04-01");
 
 var margin = {top:0, right:50, bottom:0, left:50},
     width = 960 -margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    height = 200 - margin.top - margin.bottom;
 
 var svg = d3.select("#slider")
     .append("svg")
@@ -61,5 +62,5 @@ function hue(h) {
   label
     .attr("x", x(h))
     .text(formatDate(h));
-  svg.style("background-color", d3.hsl(h/1000000000, 0.8, 0.8));
+    getData(formatDateForMap(h), "BeeCount");
 }

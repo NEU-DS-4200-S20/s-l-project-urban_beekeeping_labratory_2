@@ -19,7 +19,7 @@ var tooltip = d3.select("#map-container").append("div")
 
 
 function getData(date, count_tag) {
-
+	console.log(date)
   	d3.csv("data/MassData.csv", function(data) {
 
 	var filtered = data.filter(function(d) {
@@ -28,7 +28,7 @@ function getData(date, count_tag) {
 
 	data = filtered
 
-	console.log(data)
+	// console.log(data)
 
 	var subset = d3.nest()
   		.key(function(d) { return d.ZipCode;})
@@ -47,7 +47,7 @@ function getData(date, count_tag) {
    		});
   	}).entries(data);
 
-  	console.log(subset)
+  	// console.log(subset)
 
   	data = subset
 
@@ -127,7 +127,7 @@ function getData(date, count_tag) {
 })})};
 
 
-getData("2018-06", "BeeCount")
+getData("2011-10", "BeeCount")
 
 
 
