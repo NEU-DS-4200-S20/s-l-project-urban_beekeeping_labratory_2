@@ -115,12 +115,20 @@ function getData(date, count_tag) {
 				+ "BeeCount: " + "<b/>" + d.properties.value)
 				.style("left", (d3.event.pageX + 15) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
+			d3.select(this).style("fill", "red");
 		})
 		.on("mouseout", function (d) {
 			tooltip.transition()
 				.duration(500)
 				.style("opacity", 0);
-	});
+			d3.select(this).style("fill", function (d) {
+			if (d.properties.value == undefined) {
+				return "#ccc"
+			}
+			else {
+				return ramp(d.properties.value)
+			}
+	})});
 }
 
 d3.csv("data/MassData.csv", function (massData) {
