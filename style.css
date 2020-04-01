@@ -66,10 +66,11 @@ table {
 table thead {
 	top: 0;
 	font-weight: bold;
-	background-color: rgba(0, 71, 129, 0.808);
+	background-color: rgba(0, 71, 129, 1.0);
 	color: #FFF;
 	column-width: 100px;
 	cursor: default;
+	position: sticky;
 }
 
 th {

@@ -91,6 +91,7 @@ function getData(date, count_tag) {
 
 	var mapGroup = svg.append("g")
 		.attr("class", "mapGroup")
+		.attr("transform", "translate(0, -35)")
 
 	mapGroup.selectAll("path")
 		.data(geojson.features)
@@ -115,7 +116,7 @@ function getData(date, count_tag) {
 				+ "BeeCount: " + "<b/>" + d.properties.value)
 				.style("left", (d3.event.pageX + 15) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
-			d3.select(this).style("fill", "red");
+			d3.select(this).style("fill", "#F8FAFC");
 		})
 		.on("mouseout", function (d) {
 			tooltip.transition()

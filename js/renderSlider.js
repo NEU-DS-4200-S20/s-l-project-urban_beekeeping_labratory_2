@@ -44,6 +44,7 @@ slider.insert("g", ".track-overlay")
     .append("text")
     .attr("x", x)
     .attr("y", 10)
+    .attr("font-family", "Open Sans")
     .attr("text-anchor", "middle")
     .text(function(d) { return formatDateIntoYear(d); });
 
