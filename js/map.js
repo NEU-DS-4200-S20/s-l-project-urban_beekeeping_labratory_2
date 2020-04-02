@@ -112,10 +112,18 @@ function getData(date, count_tag) {
 			tooltip.transition()
 				.duration(200)
 				.style("opacity", .9);
-			tooltip.html("<b/>" + "Zip Code: " + "<b/>" + d.properties.ZCTA5CE10 + "</br>" + "<b/>"
+			if (d.properties.value == undefined) {
+				tooltip.html("<b/>" + "Zip Code: " + "<b/>" + d.properties.ZCTA5CE10 + "</br>" + "<b/>"
+				+ dropdownCount + ": " + "<b/>" + "No Data")
+				.style("left", (d3.event.pageX + 15) + "px")
+				.style("top", (d3.event.pageY - 28) + "px");
+			}
+			 else {
+				 tooltip.html("<b/>" + "Zip Code: " + "<b/>" + d.properties.ZCTA5CE10 + "</br>" + "<b/>"
 				+ dropdownCount + ": " + "<b/>" + d.properties.value.toFixed(0))
 				.style("left", (d3.event.pageX + 15) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
+			 }
 			d3.select(this).style("fill", "#fccc88");
 		})
 		.on("mouseout", function (d) {
