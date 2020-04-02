@@ -30,7 +30,7 @@ function getData(date, count_tag) {
 	var subset = d3.nest()
 		.key(function (d) { return d.ZipCode; })
 		.rollup(function (d) {
-			return d3.sum(d, function (g) {
+			return d3.mean(d, function (g) {
 				switch (count_tag) {
 					case "BeeCount":
 						return g.BeeCount
@@ -44,7 +44,7 @@ function getData(date, count_tag) {
 			});
 		}).entries(data);
 
-	// console.log(subset)
+	console.log(subset)
 
 	data = subset
 
@@ -113,10 +113,10 @@ function getData(date, count_tag) {
 				.duration(200)
 				.style("opacity", .9);
 			tooltip.html("<b/>" + "Zip Code: " + "<b/>" + d.properties.ZCTA5CE10 + "</br>" + "<b/>"
-				+ "BeeCount: " + "<b/>" + d.properties.value)
+				+ dropdownCount + ": " + "<b/>" + d.properties.value.toFixed(0))
 				.style("left", (d3.event.pageX + 15) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
-			d3.select(this).style("fill", "#F8FAFC");
+			d3.select(this).style("fill", "#fccc88");
 		})
 		.on("mouseout", function (d) {
 			tooltip.transition()
@@ -132,12 +132,12 @@ function getData(date, count_tag) {
 	})});
 }
 
-d3.csv("data/MassData.csv", function (massData) {
+d3.csv("data/MassDataClean.csv", function (massData) {
 	mData = massData;
 	d3.json("../data/ma_zip_codes_geo.min.json", function (err, gJson) {
 		geojson = gJson;
-		projection.fitSize([600, 450], geojson);
-		getData("2011-10", "BeeCount");
+		projection.fitSize([550, 450], geojson);
+		getData("2012-04", "BeeCount");
 	});
 });
 

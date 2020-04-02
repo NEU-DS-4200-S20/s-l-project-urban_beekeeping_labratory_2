@@ -9,7 +9,7 @@ var table = d3.selectAll("#table-container").append("table"),
 thead = table.append("thead"),
 tbody = table.append("tbody");
                 
-d3.csv('data/MassData.csv', function(data) {
+d3.csv('data/MassDataClean.csv', function(data) {
 
     keys     = Object.keys(data[0]),
     allData  = data;
@@ -29,12 +29,17 @@ d3.csv('data/MassData.csv', function(data) {
       return d;
     });
 
-    renderTable();
+    renderTable("2012-04");
 });
 
-function renderTable() {
+function renderTable(date) {
     // console.log(data);
-    currentData = allData.slice(startPos, startPos + increment);
+    // currentData = allData.slice(startPos, startPos + increment);
+    var filtered = allData.filter(function (d) {
+      return d.Date.includes(date);
+    });
+  
+    currentData = filtered
     
   // Delete previous rows.
   tbody.selectAll('tr').remove();

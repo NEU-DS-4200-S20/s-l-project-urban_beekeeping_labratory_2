@@ -1,9 +1,11 @@
 var formatDateIntoYear = d3.timeFormat("%Y");
 var formatDate = d3.timeFormat("%b %Y");
 var formatDateForMap = d3.timeFormat("%Y-%m");
+let dropdownCount = "BeeCount";
+let date = "2012-04";
 
-var startDate = new Date("2011-11-01"),
-    endDate = new Date("2019-04-01");
+var startDate = new Date("2012-04-16"),
+    endDate = new Date("2020-02-20");
 
 var margin = {top:0, right:50, bottom:0, left:50},
     width = 960 -margin.left - margin.right,
@@ -63,5 +65,29 @@ function hue(h) {
   label
     .attr("x", x(h))
     .text(formatDate(h));
-    getData(formatDateForMap(h), "BeeCount");
+    date = formatDateForMap(h);
+    renderTable(date);
+    getData(date, dropdownCount);
 }
+
+var selectbox = d3.select("#selectbox").on("change", function() {
+        if (this.value == "BeeCount") {
+            console.log("Selected Bee")
+            dropdownCount = "BeeCount";
+            getData(date, "BeeCount");
+        }
+        else if (this.value == "BroodCount") {
+            console.log("Selected Brood")
+            dropdownCount = "BroodCount";
+            getData(date, "BroodCount");
+        }
+        else if (this.value == "HoneyCount") {
+            console.log("Selected Honey")
+            dropdownCount = "HoneyCount";
+            getData(date, "HoneyCount");
+        } else {
+            console.log("Selected Default")
+            dropdownCount = "BeeCount";
+            getData(date, "BeeCount");
+        }
+  });
