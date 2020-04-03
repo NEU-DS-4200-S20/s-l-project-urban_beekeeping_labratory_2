@@ -64,7 +64,10 @@ function renderTable(date) {
                   d3.select(target).dispatch("mouseout")
                 })
                 .on("start", function(d) {
-                  tRefs[d.ZipCode.toString()] = this;
+                  if (!(d.ZipCode.toString() in tRefs)) {
+                    tRefs[d.ZipCode.toString()] = []
+                  }
+                  tRefs[d.ZipCode.toString()].push(this);
                 })
                 .dispatch("start")
       tr.selectAll('td')

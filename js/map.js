@@ -128,9 +128,14 @@ function getData(date, count_tag) {
 			d3.select(this).style("fill", "#fccc88");
 			if (d.properties.ZCTA5CE10 in tRefs) {
 				var target = tRefs[d.properties.ZCTA5CE10]
-				d3.select(target).classed("hovered", function() {
-					return true;
+				target.forEach(function (row) {
+					d3.select(row).classed("hovered", function() {
+						return true;
+					})
 				});
+				// d3.select(target).classed("hovered", function() {
+				// 	return true;
+				// });
 				// d3.select(target).style("background-color", "#8bcafd");
 			}
 		})
@@ -141,9 +146,15 @@ function getData(date, count_tag) {
 			d3.select(this).style("fill", function (d) {
 			if (d.properties.ZCTA5CE10 in tRefs) {
 				var target = tRefs[d.properties.ZCTA5CE10]
-				d3.select(target).classed("hovered", function() {
-					return false;
-				})
+				target.forEach(function (row) {
+					d3.select(row).classed("hovered", function() {
+						return false;
+					})
+				});
+				// var target = tRefs[d.properties.ZCTA5CE10]
+				// d3.select(target).classed("hovered", function() {
+				// 	return false;
+				// })
 			}
 			if (d.properties.value == undefined) {
 				return "#ccc"
