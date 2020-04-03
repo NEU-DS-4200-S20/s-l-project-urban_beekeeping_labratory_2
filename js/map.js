@@ -133,10 +133,6 @@ function getData(date, count_tag) {
 						return true;
 					})
 				});
-				// d3.select(target).classed("hovered", function() {
-				// 	return true;
-				// });
-				// d3.select(target).style("background-color", "#8bcafd");
 			}
 		})
 		.on("mouseout", function (d) {
@@ -151,10 +147,6 @@ function getData(date, count_tag) {
 						return false;
 					})
 				});
-				// var target = tRefs[d.properties.ZCTA5CE10]
-				// d3.select(target).classed("hovered", function() {
-				// 	return false;
-				// })
 			}
 			if (d.properties.value == undefined) {
 				return "#ccc"
