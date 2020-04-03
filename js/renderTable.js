@@ -50,8 +50,15 @@ function renderTable(date) {
                 .append("tr")
                 .classed("even", function(d, i) {
                   return i % 2 == 1; 
-                });
-      
+                })
+                .on("mouseover", function(d) {
+                  var target = mRefs[d.ZipCode.toString()];
+                  d3.select(target).dispatch("mouseover")
+                })
+                .on("mouseout", function(d) {
+                  var target = mRefs[d.ZipCode.toString()];
+                  d3.select(target).dispatch("mouseout")
+                })
       tr.selectAll('td')
         .data(function (d) { 
           return keys.map(function (e) {
@@ -62,7 +69,7 @@ function renderTable(date) {
           });
         }).enter()
         .append('td')
-        .text(function (d) { 
+        .text(function (d) {
           return d.value; 
         });
 };

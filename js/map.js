@@ -20,6 +20,8 @@ var tooltip = d3.select("#map-container").append("div")
 var mData = [];
 var geojson;
 
+var mRefs = {};
+
 function getData(date, count_tag) {
 	var filtered = mData.filter(function (d) {
 		return d.Date.includes(date);
@@ -43,8 +45,6 @@ function getData(date, count_tag) {
 				}
 			});
 		}).entries(data);
-
-	console.log(subset)
 
 	data = subset
 
@@ -88,6 +88,7 @@ function getData(date, count_tag) {
 	}
 
 	d3.select("#map-container").select("svg").select("g").remove();
+	mRefs = {};
 
 	var mapGroup = svg.append("g")
 		.attr("class", "mapGroup")
@@ -137,7 +138,11 @@ function getData(date, count_tag) {
 			else {
 				return ramp(d.properties.value)
 			}
-	})});
+		})})
+		.on("start", function(d) {
+			mRefs[d.properties.ZCTA5CE10] = this;
+		})
+		.dispatch("start");
 }
 
 d3.csv("data/MassDataClean.csv", function (massData) {
