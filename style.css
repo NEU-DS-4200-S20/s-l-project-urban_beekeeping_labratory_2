@@ -81,6 +81,10 @@ table tbody tr:hover {
 	background-color: rgba(139, 202, 253, 0.808);
 }
 
+table tbody tr.hovered {
+	background-color: rgba(139, 202, 253, 0.808);
+}
+
 td {
 	border: solid 1px rgb(201, 201, 201);
 	text-align: center;

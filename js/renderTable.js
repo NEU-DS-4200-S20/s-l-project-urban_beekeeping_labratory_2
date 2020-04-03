@@ -5,6 +5,8 @@ var keys,
     startPos = 0,
     increment = 1000;
 
+var tRefs = {}
+
 var table = d3.selectAll("#table-container").append("table"),
 thead = table.append("thead"),
 tbody = table.append("tbody");
@@ -40,6 +42,8 @@ function renderTable(date) {
     });
   
     currentData = filtered
+
+  tRefs = {};
     
   // Delete previous rows.
   tbody.selectAll('tr').remove();
@@ -59,6 +63,10 @@ function renderTable(date) {
                   var target = mRefs[d.ZipCode.toString()];
                   d3.select(target).dispatch("mouseout")
                 })
+                .on("start", function(d) {
+                  tRefs[d.ZipCode.toString()] = this;
+                })
+                .dispatch("start")
       tr.selectAll('td')
         .data(function (d) { 
           return keys.map(function (e) {

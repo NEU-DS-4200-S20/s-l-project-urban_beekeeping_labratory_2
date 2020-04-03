@@ -126,12 +126,25 @@ function getData(date, count_tag) {
 				.style("top", (d3.event.pageY - 28) + "px");
 			 }
 			d3.select(this).style("fill", "#fccc88");
+			if (d.properties.ZCTA5CE10 in tRefs) {
+				var target = tRefs[d.properties.ZCTA5CE10]
+				d3.select(target).classed("hovered", function() {
+					return true;
+				});
+				// d3.select(target).style("background-color", "#8bcafd");
+			}
 		})
 		.on("mouseout", function (d) {
 			tooltip.transition()
 				.duration(500)
 				.style("opacity", 0);
 			d3.select(this).style("fill", function (d) {
+			if (d.properties.ZCTA5CE10 in tRefs) {
+				var target = tRefs[d.properties.ZCTA5CE10]
+				d3.select(target).classed("hovered", function() {
+					return false;
+				})
+			}
 			if (d.properties.value == undefined) {
 				return "#ccc"
 			}
