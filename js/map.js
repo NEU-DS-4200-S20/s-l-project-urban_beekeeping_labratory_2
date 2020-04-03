@@ -155,6 +155,17 @@ function getData(date, count_tag) {
 				return ramp(d.properties.value)
 			}
 		})})
+		.on("mouselinkon", function(d) {
+			d3.select(this).style("fill", "#fccc88");
+		})
+		.on("mouselinkoff", function(d) {
+			if (d.properties.value == undefined) {
+				d3.select(this).style("fill", "#ccc");
+			}
+			else {
+				d3.select(this).style("fill", ramp(d.properties.value));
+			}
+		})
 		.on("start", function(d) {
 			mRefs[d.properties.ZCTA5CE10] = this;
 		})

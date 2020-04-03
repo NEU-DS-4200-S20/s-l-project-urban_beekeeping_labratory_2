@@ -57,11 +57,13 @@ function renderTable(date) {
                 })
                 .on("mouseover", function(d) {
                   var target = mRefs[d.ZipCode.toString()];
-                  d3.select(target).dispatch("mouseover")
+                  // d3.select(target).dispatch("mouseover")
+                  d3.select(target).dispatch("mouselinkon");
                 })
                 .on("mouseout", function(d) {
                   var target = mRefs[d.ZipCode.toString()];
-                  d3.select(target).dispatch("mouseout")
+                  // d3.select(target).dispatch("mouseout")
+                  d3.select(target).dispatch("mouselinkoff");
                 })
                 .on("start", function(d) {
                   if (!(d.ZipCode.toString() in tRefs)) {
