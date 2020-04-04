@@ -44,6 +44,9 @@ function renderTable(date) {
     currentData = filtered
 
   tRefs = {};
+  var selecting = false;
+  var brushedRows = [];
+  var brushedData = [];
     
   // Delete previous rows.
   tbody.selectAll('tr').remove();
@@ -56,14 +59,53 @@ function renderTable(date) {
                   return i % 2 == 1; 
                 })
                 .on("mouseover", function(d) {
-                  var target = mRefs[d.ZipCode.toString()];
-                  // d3.select(target).dispatch("mouseover")
-                  d3.select(target).dispatch("mouselinkon");
+                    var target = mRefs[d.ZipCode.toString()];
+                    d3.select(target).dispatch("mouselinkon");
+                    if (selecting) {
+                      brushedRows.push(this);
+                      brushedData.push(d);
+                      d3.select(this).classed("hovered", function() {
+                        return true;
+                      })
+                    }
                 })
                 .on("mouseout", function(d) {
-                  var target = mRefs[d.ZipCode.toString()];
-                  // d3.select(target).dispatch("mouseout")
-                  d3.select(target).dispatch("mouselinkoff");
+                  if (!selecting) {
+                    var target = mRefs[d.ZipCode.toString()];
+                    d3.select(target).dispatch("mouselinkoff");
+                    d3.select(this).classed("hovered", function() {
+                      return false;
+                    })
+                  }
+                })
+                .on("mousedown", function(d) {
+                  selecting = !selecting;
+                  // Deselect All
+                  brushedData.map(function (item) {
+                    var target = mRefs[item.ZipCode.toString()];
+                    d3.select(target).dispatch("mouselinkoff");
+                  })
+                  currentData.map(d => {
+                    var target = mRefs[d.ZipCode.toString()];
+                    d3.select(target).classed("hovered", function() {
+                      return false;
+                    })
+                  })
+                  brushedRows.map(item => d3.select(item).classed("hovered", function() {
+                    return false;
+                  }))
+                  // Reset containers
+                  brushedRows = []
+                  brushedData = [];
+                  // Brush current row
+                  brushedRows.push(this);
+                  brushedData.push(d);
+                  d3.select(this).dispatch("mouseover");
+                })
+                .on("mouseup", function (d) {
+                  selecting = false;
+                  brushedRows.push(this);
+                  brushedData.push(d);
                 })
                 .on("start", function(d) {
                   if (!(d.ZipCode.toString() in tRefs)) {
