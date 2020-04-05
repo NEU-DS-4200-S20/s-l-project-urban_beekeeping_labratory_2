@@ -89,6 +89,8 @@ var mRefs = {};
 // data type wanted based on user selection from the dropdown box. This function also
 // initiates the rendering of the map and it's user functionality dispatch calls.
 function getData(date, count_tag) {
+	brushedRows = [];
+	brushedData = [];
 
 	// Filter data so only values for the designated date are paased forward.
 	var filtered = mData.filter(function (d) {
