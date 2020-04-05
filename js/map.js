@@ -281,7 +281,7 @@ function getData(date, count_tag) {
 
 d3.csv("data/MassDataClean.csv", function (massData) {
 	mData = massData;
-	d3.json("../data/ma_zip_codes_geo.min.json", function (err, gJson) {
+	d3.json("data/ma_zip_codes_geo.min.json", function (err, gJson) {
 		geojson = gJson;
 		projection.fitSize([550, 450], geojson);
 		getData("2012-04", "BeeCount");
