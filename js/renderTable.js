@@ -71,11 +71,22 @@ function renderTable(date) {
                 })
                 .on("mouseout", function(d) {
                   if (!selecting) {
-                    var target = mRefs[d.ZipCode.toString()];
-                    d3.select(target).dispatch("mouselinkoff");
-                    d3.select(this).classed("hovered", function() {
-                      return false;
-                    })
+                    if (!brushedRows.includes(this)) {
+                      var target = mRefs[d.ZipCode.toString()];
+                      d3.select(this).classed("hovered", function() {
+                        return false;
+                      })
+                      var mapBrushed = false;
+                      brushedData.forEach(bd => {
+                        var brushedZip = bd.ZipCode;
+                        if (brushedZip == d.ZipCode) {
+                          mapBrushed = true;
+                        }
+                      })
+                      if (!mapBrushed) {
+                        d3.select(target).dispatch("mouselinkoff");
+                      }
+                    }
                   }
                 })
                 .on("mousedown", function(d) {
