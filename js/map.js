@@ -6,8 +6,61 @@ var highColor = '#1B4F72'
 
 var svg = d3.select("#map-container")
 	.append("svg")
+	.attr("id", "map-svg")
 	.attr("width", width)
 	.attr("height", height);
+
+var brushX;
+var brushY;
+var mapBrushing = false;
+var mRefs = {};
+
+svg.on("mousedown", function () {
+	Object.entries(mRefs).forEach(function([key, val]) {
+		d3.select(val).dispatch("mouselinkoff")
+	})
+	d3.select("#map-brush").remove();
+	mapBrushing = true;
+	brushX = d3.event.pageX;
+	brushY = d3.event.pageY;
+	svg.append("circle")
+		.attr("id", "map-brush")
+		.attr("cx", d3.mouse(this)[0])
+		.attr("cy", d3.mouse(this)[1])
+		.attr("r", 0)
+		.attr("opacity", 0.33)
+		.attr("fill", "#69a3b2")
+}).on("mousemove", function() {
+	if (mapBrushing) {
+		var currentX = d3.event.pageX;
+		var currentY = d3.event.pageY;
+		var dist = distance(currentX, currentY, brushX, brushY)
+		d3.select("#map-brush").attr("r", dist);
+		var circleX = d3.select("#map-brush").attr("cx");
+		var circleY = d3.select("#map-brush").attr("cy");
+		Object.entries(mRefs).forEach(function([key, val]) {
+			var box = d3.select(val).node().getBBox();
+			if (distance(box.x, box.y, circleX, circleY) < dist) {
+				d3.select(val).dispatch("mouselinkon");
+			} else if (distance(box.x, box.y + box.height, circleX, circleY) < dist) {
+				d3.select(val).dispatch("mouselinkon");
+			} else if (distance(box.x + box.width, box.y, circleX, circleY) < dist) {
+				d3.select(val).dispatch("mouselinkon");
+			} else if (distance(box.x + box.width, box.y + box.height, circleX, circleY) < dist) {
+				d3.select(val).dispatch("mouselinkon");
+			} else {
+				d3.select(val).dispatch("mouselinkoff");
+			}
+		})
+	}
+}).on("mouseup", function() {
+	mapBrushing = false;
+	d3.select("#map-brush").remove();
+})
+
+function distance(x1, y1, x2, y2) {
+	return Math.sqrt(((x2 - x1)**2) + ((y2 - y1)**2))
+}
 
 var projection = d3.geoMercator().translate(width / 2, height / 2).scale(width);
 
@@ -19,8 +72,6 @@ var tooltip = d3.select("#map-container").append("div")
 
 var mData = [];
 var geojson;
-
-var mRefs = {};
 
 function getData(date, count_tag) {
 	var filtered = mData.filter(function (d) {
@@ -157,6 +208,14 @@ function getData(date, count_tag) {
 		})})
 		.on("mouselinkon", function(d) {
 			d3.select(this).style("fill", "#fccc88");
+			if (d.properties.ZCTA5CE10 in tRefs) {
+				var target = tRefs[d.properties.ZCTA5CE10]
+				target.forEach(function (row) {
+					d3.select(row).classed("hovered", function() {
+						return true;
+					})
+				});
+			}
 		})
 		.on("mouselinkoff", function(d) {
 			if (d.properties.value == undefined) {
@@ -165,9 +224,19 @@ function getData(date, count_tag) {
 			else {
 				d3.select(this).style("fill", ramp(d.properties.value));
 			}
+			if (d.properties.ZCTA5CE10 in tRefs) {
+				var target = tRefs[d.properties.ZCTA5CE10]
+				target.forEach(function (row) {
+					d3.select(row).classed("hovered", function() {
+						return false;
+					})
+				});
+			}
 		})
 		.on("start", function(d) {
-			mRefs[d.properties.ZCTA5CE10] = this;
+			if (d.properties.value != undefined) {
+				mRefs[d.properties.ZCTA5CE10] = this;
+			}
 		})
 		.dispatch("start");
 }
@@ -180,7 +249,3 @@ d3.csv("data/MassDataClean.csv", function (massData) {
 		getData("2012-04", "BeeCount");
 	});
 });
-
-
-
-
