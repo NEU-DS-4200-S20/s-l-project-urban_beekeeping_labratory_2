@@ -6,6 +6,8 @@ var keys,
     increment = 1000;
 
 var tRefs = {}
+var brushedRows = []
+var brushedData = []
 
 var table = d3.selectAll("#table-container").append("table"),
 thead = table.append("thead"),
@@ -39,8 +41,8 @@ function renderTable(date) {
 
   tRefs = {};
   var selecting = false;
-  var brushedRows = [];
-  var brushedData = [];
+  brushedRows = [];
+  brushedData = [];
     
   // Delete previous rows.
   tbody.selectAll('tr').remove();
@@ -56,11 +58,13 @@ function renderTable(date) {
                     var target = mRefs[d.ZipCode.toString()];
                     d3.select(target).dispatch("mouselinkon");
                     if (selecting) {
-                      brushedRows.push(this);
-                      brushedData.push(d);
-                      d3.select(this).classed("hovered", function() {
-                        return true;
-                      })
+                      if (!brushedRows.includes(this)) {
+                        brushedRows.push(this);
+                        brushedData.push(d);
+                        d3.select(this).classed("hovered", function() {
+                          return true;
+                        })
+                      }
                     }
                 })
                 .on("mouseout", function(d) {
@@ -84,7 +88,7 @@ function renderTable(date) {
                   }
                 })
                 .on("mousedown", function(d) {
-                  selecting = !selecting;
+                  selecting = true;
                   // Deselect All
                   brushedData.map(function (item) {
                     var target = mRefs[item.ZipCode.toString()];
@@ -109,8 +113,13 @@ function renderTable(date) {
                 })
                 .on("mouseup", function (d) {
                   selecting = false;
-                  brushedRows.push(this);
-                  brushedData.push(d);
+                  if (brushedRows.length == 1) {
+                    brushedRows.pop();
+                    brushedData.pop();
+                    d3.select(this).dispatch("mouseout");
+                  } 
+                  // brushedRows.push(this);
+                  // brushedData.push(d);
                 })
                 .on("start", function(d) {
                   if (!(d.ZipCode.toString() in tRefs)) {
