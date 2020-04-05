@@ -19,6 +19,8 @@ var mapBrushing = false;
 var mRefs = {};
 
 svg.on("mousedown", function () {
+	brushedRows = [];
+	brushedData = [];
 	Object.entries(mRefs).forEach(function([key, val]) {
 		d3.select(val).dispatch("mouselinkoff")
 	})
@@ -242,9 +244,9 @@ function getData(date, count_tag) {
 			d3.select(this).style("fill", "#fccc88");
 			if (d.properties.ZCTA5CE10 in tRefs) {
 				var target = tRefs[d.properties.ZCTA5CE10]
+				brushedData.push({ZipCode: d.properties.ZCTA5CE10});
 				target.forEach(function (row) {
 					brushedRows.push(row);
-					brushedData.push({ZipCode: d.properties.ZCTA5CE10});
 					d3.select(row).classed("hovered", function() {
 						return true;
 					})
