@@ -11,17 +11,11 @@ var table = d3.selectAll("#table-container").append("table"),
 thead = table.append("thead"),
 tbody = table.append("tbody");
                 
+// load data
 d3.csv('data/MassDataClean.csv', function(data) {
 
     keys     = Object.keys(data[0]),
     allData  = data;
-
-    // date: parseDate(d.Date),
-    // hiveId: d.HiveID,
-    // zipcode: d.ZipCode,
-    // beeCount: d.BeeCount,
-    // broodCount: d.BroodCount,
-    // honeyCount: d.HoneyCount
     
     thead.append('tr')
       .selectAll('th')
@@ -34,9 +28,9 @@ d3.csv('data/MassDataClean.csv', function(data) {
     renderTable("2012-04");
 });
 
+
+//render table, passes in the current date on the slider to filter and display
 function renderTable(date) {
-    // console.log(data);
-    // currentData = allData.slice(startPos, startPos + increment);
     var filtered = allData.filter(function (d) {
       return d.Date.includes(date);
     });

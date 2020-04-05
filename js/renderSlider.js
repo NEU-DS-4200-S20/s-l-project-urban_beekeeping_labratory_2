@@ -35,7 +35,7 @@ slider.append("line")
     .attr("class", "track-overlay")
     .call(d3.drag()
         .on("start.interrupt", function() { slider.interrupt(); })
-        .on("start drag", function() { hue(x.invert(d3.event.x)); }));
+        .on("start drag", function() { highlight(x.invert(d3.event.x)); }));
 
 slider.insert("g", ".track-overlay")
     .attr("class", "ticks")
@@ -60,7 +60,8 @@ var handle = slider.insert("circle", ".track-overlay")
     .attr("class", "handle")
     .attr("r", 9);
 
-function hue(h) {
+// updates the map and the table based on the current values of the slider and dropdown menu
+function highlight(h) {
   handle.attr("cx", x(h));
   label
     .attr("x", x(h))
@@ -70,6 +71,7 @@ function hue(h) {
     getData(date, dropdownCount);
 }
 
+// code for the dropdown to select the different kinds of counts bee, brood or honey to display on the map
 var selectbox = d3.select("#selectbox").on("change", function() {
         if (this.value == "BeeCount") {
             console.log("Selected Bee")
