@@ -88,7 +88,7 @@ function renderTable(date) {
                   }
                 })
                 .on("mousedown", function(d) {
-                  selecting = !selecting;
+                  selecting = true;
                   // Deselect All
                   brushedData.map(function (item) {
                     var target = mRefs[item.ZipCode.toString()];
@@ -113,8 +113,13 @@ function renderTable(date) {
                 })
                 .on("mouseup", function (d) {
                   selecting = false;
-                  brushedRows.push(this);
-                  brushedData.push(d);
+                  if (brushedRows.length == 1) {
+                    brushedRows.pop();
+                    brushedData.pop();
+                    d3.select(this).dispatch("mouseout");
+                  } 
+                  // brushedRows.push(this);
+                  // brushedData.push(d);
                 })
                 .on("start", function(d) {
                   if (!(d.ZipCode.toString() in tRefs)) {

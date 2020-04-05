@@ -210,20 +210,30 @@ function getData(date, count_tag) {
 				.duration(500)
 				.style("opacity", 0);
 			d3.select(this).style("fill", function (d) {
-			if (d.properties.ZCTA5CE10 in tRefs) {
-				var target = tRefs[d.properties.ZCTA5CE10]
-				target.forEach(function (row) {
-					d3.select(row).classed("hovered", function() {
-						return false;
-					})
+				var brushed = false;
+				brushedData.forEach(item => {
+					if (item.ZipCode == d.properties.ZCTA5CE10) {
+						brushed = true;
+					}
 				});
-			}
-			if (d.properties.value == undefined) {
-				return "#ccc"
-			}
-			else {
-				return ramp(d.properties.value)
-			}
+				if (!brushed) {
+					if (d.properties.ZCTA5CE10 in tRefs) {
+						var target = tRefs[d.properties.ZCTA5CE10]
+						target.forEach(function (row) {
+							d3.select(row).classed("hovered", function() {
+								return false;
+							})
+						});
+					}
+					if (d.properties.value == undefined) {
+						return "#ccc"
+					}
+					else {
+						return ramp(d.properties.value)
+					}
+				} else {
+					return "#fccc88";
+				}
 		})})
 		.on("mouselinkon", function(d) {
 			d3.select(this).style("fill", "#fccc88");
