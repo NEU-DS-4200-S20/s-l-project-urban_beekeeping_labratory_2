@@ -76,20 +76,24 @@ var selectbox = d3.select("#selectbox").on("change", function() {
         if (this.value == "BeeCount") {
             console.log("Selected Bee")
             dropdownCount = "BeeCount";
+            renderTable(date);
             getData(date, "BeeCount");
         }
         else if (this.value == "BroodCount") {
             console.log("Selected Brood")
             dropdownCount = "BroodCount";
+            renderTable(date);
             getData(date, "BroodCount");
         }
         else if (this.value == "HoneyCount") {
             console.log("Selected Honey")
             dropdownCount = "HoneyCount";
+            renderTable(date);
             getData(date, "HoneyCount");
         } else {
             console.log("Selected Default")
             dropdownCount = "BeeCount";
+            renderTable(date);
             getData(date, "BeeCount");
         }
   });
