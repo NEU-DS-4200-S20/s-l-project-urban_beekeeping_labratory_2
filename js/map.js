@@ -233,6 +233,8 @@ function getData(date, count_tag) {
 			if (d.properties.ZCTA5CE10 in tRefs) {
 				var target = tRefs[d.properties.ZCTA5CE10]
 				target.forEach(function (row) {
+					brushedRows.push(row);
+					brushedData.push({ZipCode: d.properties.ZCTA5CE10});
 					d3.select(row).classed("hovered", function() {
 						return true;
 					})
