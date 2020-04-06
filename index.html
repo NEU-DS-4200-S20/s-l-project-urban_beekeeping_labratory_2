@@ -7,7 +7,7 @@
   <meta charset="utf-8">
 
   <!-- Title -->
-  <title>Project Team #2: Bee Keeping, DS 4200 S20</title>
+  <title>Project Team #2: Beekeeping, DS 4200 S20</title>
 
   <!-- CSS Styling -->
   <link rel="stylesheet" href="style.css">
@@ -34,7 +34,7 @@
   <!-- Your writeup goes here -->
   <div class="content-column">
 
-    <h1>Project Team #2: Bee Keeping, DS 4200 S20</h1>
+    <h1>Project Team #2: Beekeeping, DS 4200 S20</h1>
 
     <p><strong>Hari Muralikrishnan</strong>, <strong>Matthew Martin</strong>, <strong>Joshua Myles</strong>, <strong>Sindhu Majeti</strong></p>
 
@@ -48,8 +48,14 @@
 
     <p><em>Summary of user needs and motivating questions.</em></p>
 
-    <p><em>Expectation: There is a clear focus, and a developed explanation of the problem, and a reasonable response is
-        proposed.</em></p>
+    <p><em>This project is being designed for the use of our service learning partner, the Urban Beekeeping Laboratory. 
+      They have provided us with data spanning almost the past decade on records that summarize bee, brood, and honey counts for all their hives in the New England area, primarily for Massachusetts. The questions we agreed to pursue included:
+      (1) What are the geographic hotspots for bee upkeep and production, otherwise known as “blue zones”?
+      (2) How does the distribution of blue zones over Massachusetts change over time? 
+      (3) As time passed, has the laboratory been successful in increasing the amount of blue zones?
+      (4) How do blue zones for bees compare to the best spots for brood and honey production?
+      The primary goals behind answering these questions was to create a visualization that could showcase the distribution of bee/brood/honey density for each region of Massachusetts for all the years of data available. With this, the Urban Beekeeping Laboratory will have better tool to analyze their work this past decade and decide on next steps to take, specifically on where to focus their future efforts on to efficiently allocate their time and resources. Another motivation for this project is that it can be published on their webpage to attract external parties to fund their projects or simply highlight their work to the local communities of Massachusetts to encourage more help with their commendable efforts. 
+      </em></p>
 
 
     <h1>Visualization</h1>
@@ -101,30 +107,28 @@
     </video>
 
     <h1>Visualization explanation</h1>
-
-    <p><em>Final visualization screenshots (PNG images), design justifications, UI walk-through, and linked presentation
-        slides.</em></p>
+    <p><em>Here are the screenshots of our final visualization sketch:</em></p>
+    <img src= images/FinalVizScreenshot1.png width="100%">
+    <img src= images/FinalVizScreenshot2.png width="100%">
+    <img src= images/FinalVizScreenshot3.png width="100%">
+    <p><em>
+      We chose this design because we believe that it solves all the tasks we originally set out to accomplish, each to the highest extent possible. On the top left of our visual is a choropleth, which is a map with color encodings that visualize the level of hive health, and it solves our task of “examining blue zones geographically”. On the top right of our visual is a table, and it contains the explicit data records in full. Below the map and table is a selector for which type of health we want the map to focus on: bee, brood, or honey. Below that is another key aspect to our visualization, the slider. As you move the slider to the right, it represents the passage of time, and the map and table change according to what time period the user chooses to focus on. This solves our task of “interactively showing changes over time”. (Following is not coded yet) Below this slider is another one that represents the minimum threshold the user expects the shown data to meet. To be more specific, a user could only want to view regions with only the best hive health, in which case the slider would be pushed towards the right edge. This slider will solve the task of “choosing location for hive based on hotspot data”. In terms of UI, the impressive feature of our visualization is that it incorporates linking between every single slider and view, and additional linking through a brushing feature between the map and the table. This means that if a user holds down their mouse and moves across regions on the map, hives on the table located in those regions will highlight as well. On the other side, if the user holds down their mouse and selects a few rows from the table, the map will highlight the regions that the bee hives in those rows belong in. Additionally, linking between all of the pieces means that the map and table only show the user the data corresponding to the current time period and threshold as per the state of the slider. Ultimately, the entire visualization is easy to use and understand through our thoughtful choices in coming to this final design.  
+</em></p>
 
     <h1>Data Analysis</h1>
     <p><em>Summary of data, data types, and data preprocessing.</em></p>
-
-    <p><em>Expectation: Data sources match the problem statement and are appropriate. These descriptions should be very
-        explicit so someone could read your page and properly reproduce your results.</em></p>
+    <iframe src="https://docs.google.com/document/d/e/2PACX-1vQeqU5r-614ALD4ynV7xQ-dXl8nCsATMnlzgOYr_NxGxHdnEMqWsPehTOiJukMsQjYGAX1nJ0weUvdj/pub?embedded=true" width="100%"></iframe>
 
     <h1>Task Analysis</h1>
 
-    <p><em>Summary of task table.</em></p>
+    <p><em>Summary of task table.(Go to end of Google Doc to see Task Analysis table)</em></p>
 
-    <p><em>Expectation: Clearly describes domain tasks, processes, goals and abstract tasks for domain problems.</em>
-    </p>
+    <iframe src="https://docs.google.com/document/d/e/2PACX-1vSG7KouB_uvKgy4MNNaHijwcB42lRZ4nFylgkRBANKvQiw6zXZFM7WYLVnxNVPHbtwdV9NVnVRCGBvP/pub?embedded=true" width="100%"></iframe>
 
     <h1>Design Process</h1>
 
     <p><em>Sketches and design choices to justify final visualization.</em></p>
-
-    <p><em>Expectation: Evidence of iterative improvement.
-        Logical discussion of design choices grounded in theory from course.
-        Discusses feedback from usability testing.</em></p>
+    <iframe src="https://docs.google.com/document/d/e/2PACX-1vRrcg5T_Tt6UfzUA6CP_uqwPNDVrUU_bm2SxtkKJcoBH4y6mgZ1Kig_ONN4Hn58gGUnetflRFYpJG7s/pub?embedded=true" width="100%"></iframe>
 
 
     <h1>Conclusion</h1>
