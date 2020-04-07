@@ -232,4 +232,14 @@ div.tooltip {
           background: #F0F0F0; 
           border: 1px;        
           pointer-events: none;     
-      }
+	  }
+	  
+.selectbox {
+	width: 140px;
+	height: 30px;
+	border: 1px solid #999;
+	font-size: 16px;
+	color: rgba(0, 71, 129, 1.0);
+	background-color: #fff;
+	border-radius: 3px;
+}
