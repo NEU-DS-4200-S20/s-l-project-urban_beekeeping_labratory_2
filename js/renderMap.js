@@ -16,6 +16,8 @@ var svg = d3.select("#map-container")
 var brushX;
 var brushY;
 var mapBrushing = false;
+
+var mTransform;
 var mRefs = {};
 
 // Mouse down and mouse move help enable brushing on the map to select multiple regions.
@@ -285,6 +287,7 @@ function getData(date, count_tag) {
 			}
 		})
 		.dispatch("start");
+		svg.call(zoom.transform, d3.zoomIdentity)
 }
 
 d3.csv("data/MassDataClean.csv", function (massData) {
@@ -295,3 +298,17 @@ d3.csv("data/MassDataClean.csv", function (massData) {
 		getData("2012-04", "BeeCount");
 	});
 });
+
+
+// Zoom functionality
+var zoom = d3.zoom()
+			.extent([[0, 0], [width, height]])
+			.scaleExtent([1, 16])
+			.on("zoom", zoomed);
+
+svg.call(zoom);
+
+d3.select('svg').on('mousedown.zoom', null);
+function zoomed() {
+	d3.select("#map-container").select("svg").select("g").attr("transform", d3.event.transform);
+}
