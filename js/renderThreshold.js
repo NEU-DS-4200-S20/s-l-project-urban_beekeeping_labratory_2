@@ -101,7 +101,7 @@ function dehighlight(h) {
                 .classed("threshed", function() {
                     return false;
                 })
-                .style("fill", ramp(pathData));
+                .style("fill", ramp(pathData * 2));
             Object.values(rows).forEach(row => {
                 d3.select(row).style("display", "");
             })
