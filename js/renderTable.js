@@ -14,7 +14,7 @@ thead = table.append("thead"),
 tbody = table.append("tbody");
                 
 // load data
-d3.csv('data/MassDataClean.csv', function(data) {
+d3.csv('data/NewMassDataClean.csv', function(data) {
 
     keys     = Object.keys(data[0]),
     allData  = data;

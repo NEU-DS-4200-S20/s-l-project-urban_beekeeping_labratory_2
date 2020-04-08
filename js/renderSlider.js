@@ -62,13 +62,14 @@ var handle = slider.insert("circle", ".track-overlay")
 
 // updates the map and the table based on the current values of the slider and dropdown menu
 function highlight(h) {
-  handle.attr("cx", x(h));
-  label
-    .attr("x", x(h))
-    .text(formatDate(h));
-    date = formatDateForMap(h);
-    renderTable(date);
-    getData(date, dropdownCount);
+    d3.select()
+    handle.attr("cx", x(h));
+    label
+        .attr("x", x(h))
+        .text(formatDate(h));
+        date = formatDateForMap(h);
+        renderTable(date);
+        getData(date, dropdownCount);
 }
 
 // code for the dropdown to select the different kinds of counts bee, brood or honey to display on the map
@@ -97,3 +98,4 @@ var selectbox = d3.select("#selectbox").on("change", function() {
             getData(date, "BeeCount");
         }
   });
+

@@ -19,6 +19,8 @@ var mapBrushing = false;
 
 var mTransform;
 var mRefs = {};
+var ramp;
+var deramp;
 
 // Mouse down and mouse move help enable brushing on the map to select multiple regions.
 // The user can initiate brushing by clicking and dragging on the map. A circle will be created 
@@ -134,9 +136,10 @@ function getData(date, count_tag) {
 
 	// Get min and max values for the color scale for the chloropleth map.
 	// Create a domain objects for the color scale.
-	var minVal = d3.min(dataArray);
-	var maxVal = d3.max(dataArray) / 2;
-	var ramp = d3.scaleLinear().domain([minVal, maxVal]).range([lowColor, highColor])
+	minVal = d3.min(dataArray);
+	maxVal = d3.max(dataArray) / 2;
+	ramp = d3.scaleLinear().domain([minVal, maxVal]).range([lowColor, highColor])
+
 
 	for (var i = 0; i < geojson.features.length; i++) {
 		geojson.features[i].properties.value = undefined;
@@ -170,6 +173,7 @@ function getData(date, count_tag) {
 
 	// Append a mapgroup element to the html. 
 	var mapGroup = svg.append("g")
+		.attr("id", "mGroup")
 		.attr("class", "mapGroup")
 		.attr("transform", "translate(0, -35)")
 
@@ -179,6 +183,13 @@ function getData(date, count_tag) {
 		.enter()
 		.append("path")
 		.attr("d", path)
+		.attr("id", function (d) {
+			if (d.properties.value == undefined) {
+				return d.properties.ZCTA5CE10;
+			} else {
+				return d.properties.ZCTA5CE10 + ":" + d.properties.value.toString();
+			}
+		})
 		.style("stroke", "#fff")
 		.style("stroke-width", "1")
 		.style("fill", function (d) {
@@ -207,14 +218,16 @@ function getData(date, count_tag) {
 				.style("left", (d3.event.pageX + 15) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
 			 }
-			d3.select(this).style("fill", "#fccc88");
-			if (d.properties.ZCTA5CE10 in tRefs) {
-				var target = tRefs[d.properties.ZCTA5CE10]
-				target.forEach(function (row) {
-					d3.select(row).classed("hovered", function() {
-						return true;
-					})
-				});
+			if (!d3.select(this).classed("threshed")) {
+				d3.select(this).style("fill", "#fccc88");
+				if (d.properties.ZCTA5CE10 in tRefs) {
+					var target = tRefs[d.properties.ZCTA5CE10]
+					target.forEach(function (row) {
+						d3.select(row).classed("hovered", function() {
+							return true;
+						})
+					});
+				}
 			}
 		})
 		// Mouse out ensures that a region will not be highlighted and the details on demand will
@@ -223,62 +236,71 @@ function getData(date, count_tag) {
 			tooltip.transition()
 				.duration(500)
 				.style("opacity", 0);
-			d3.select(this).style("fill", function (d) {
-				var brushed = false;
-				brushedData.forEach(item => {
-					if (item.ZipCode == d.properties.ZCTA5CE10) {
-						brushed = true;
+			if (!d3.select(this).classed("threshed")) {
+				d3.select(this).style("fill", function (d) {
+					var brushed = false;
+					brushedData.forEach(item => {
+						if (item.ZipCode == d.properties.ZCTA5CE10) {
+							brushed = true;
+						}
+					});
+					if (!brushed) {
+						if (d.properties.ZCTA5CE10 in tRefs) {
+							var target = tRefs[d.properties.ZCTA5CE10]
+							target.forEach(function (row) {
+								d3.select(row).classed("hovered", function() {
+									return false;
+								})
+							});
+						}
+						if (d.properties.value == undefined) {
+							return "#ccc"
+						}
+						else {
+							return ramp(d.properties.value)
+						}
+					} else {
+						return "#fccc88";
 					}
-				});
-				if (!brushed) {
-					if (d.properties.ZCTA5CE10 in tRefs) {
-						var target = tRefs[d.properties.ZCTA5CE10]
-						target.forEach(function (row) {
-							d3.select(row).classed("hovered", function() {
-								return false;
-							})
-						});
-					}
-					if (d.properties.value == undefined) {
-						return "#ccc"
-					}
-					else {
-						return ramp(d.properties.value)
-					}
-				} else {
-					return "#fccc88";
-				}
-		})})
+			})
+			}
+		})
 		.on("mouselinkon", function(d) {
-			d3.select(this).style("fill", "#fccc88");
+			if (!d3.select(this).classed("threshed")) {
+				d3.select(this).style("fill", "#fccc88");
+			}
 		})
 		.on("mouselinkon2", function(d) {
-			d3.select(this).style("fill", "#fccc88");
-			if (d.properties.ZCTA5CE10 in tRefs) {
-				var target = tRefs[d.properties.ZCTA5CE10]
-				brushedData.push({ZipCode: d.properties.ZCTA5CE10});
-				target.forEach(function (row) {
-					brushedRows.push(row);
-					d3.select(row).classed("hovered", function() {
-						return true;
-					})
-				});
+			if (!d3.select(this).classed("threshed")) {
+				d3.select(this).style("fill", "#fccc88");
+				if (d.properties.ZCTA5CE10 in tRefs) {
+					var target = tRefs[d.properties.ZCTA5CE10]
+					brushedData.push({ZipCode: d.properties.ZCTA5CE10});
+					target.forEach(function (row) {
+						brushedRows.push(row);
+						d3.select(row).classed("hovered", function() {
+							return true;
+						})
+					});
+				}
 			}
 		})
 		.on("mouselinkoff", function(d) {
-			if (d.properties.value == undefined) {
-				d3.select(this).style("fill", "#ccc");
-			}
-			else {
-				d3.select(this).style("fill", ramp(d.properties.value));
-			}
-			if (d.properties.ZCTA5CE10 in tRefs) {
-				var target = tRefs[d.properties.ZCTA5CE10]
-				target.forEach(function (row) {
-					d3.select(row).classed("hovered", function() {
-						return false;
-					})
-				});
+			if (!d3.select(this).classed("threshed")) {
+				if (d.properties.value == undefined) {
+					d3.select(this).style("fill", "#ccc");
+				}
+				else {
+					d3.select(this).style("fill", ramp(d.properties.value));
+				}
+				if (d.properties.ZCTA5CE10 in tRefs) {
+					var target = tRefs[d.properties.ZCTA5CE10]
+					target.forEach(function (row) {
+						d3.select(row).classed("hovered", function() {
+							return false;
+						})
+					});
+				}
 			}
 		})
 		.on("start", function(d) {
@@ -288,9 +310,12 @@ function getData(date, count_tag) {
 		})
 		.dispatch("start");
 		svg.call(zoom.transform, d3.zoomIdentity)
+		d3.select("#gstart").attr("stop-color", ramp(minVal))
+		d3.select("#gstop").attr("stop-color", ramp(maxVal))
+		threshTicks();
 }
 
-d3.csv("data/MassDataClean.csv", function (massData) {
+d3.csv("data/NewMassDataClean.csv", function (massData) {
 	mData = massData;
 	d3.json("data/ma_zip_codes_geo.min.json", function (err, gJson) {
 		geojson = gJson;
