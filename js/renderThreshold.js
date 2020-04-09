@@ -1,11 +1,6 @@
 var minVal = 0;
 var maxVal = 19;
 
-var y = d3.scaleLinear()
-    .domain([minVal, maxVal])
-    .range([minVal, maxVal])
-    .clamp(true);
-
 var svg = d3.select("#thresh-slider")
     .append("svg")
     .attr("width", width + margin.left + margin.right)

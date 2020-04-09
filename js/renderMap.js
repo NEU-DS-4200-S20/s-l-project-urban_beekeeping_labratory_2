@@ -53,15 +53,10 @@ svg.on("mousedown", function () {
 		var circleY = d3.select("#map-brush").attr("cy");
 		Object.entries(mRefs).forEach(function([key, val]) {
 			var box = d3.select(val).node().getBBox();
-			if (distance(box.x, box.y, circleX, circleY) < dist) {
+			if (distance(box.x + (box.width / 2), box.y + (box.height / 2), circleX, circleY) < dist) {
 				d3.select(val).dispatch("mouselinkon2");
-			} else if (distance(box.x, box.y + box.height, circleX, circleY) < dist) {
-				d3.select(val).dispatch("mouselinkon2");
-			} else if (distance(box.x + box.width, box.y, circleX, circleY) < dist) {
-				d3.select(val).dispatch("mouselinkon2");
-			} else if (distance(box.x + box.width, box.y + box.height, circleX, circleY) < dist) {
-				d3.select(val).dispatch("mouselinkon2");
-			} else {
+			}
+			else {
 				d3.select(val).dispatch("mouselinkoff");
 			}
 		})
