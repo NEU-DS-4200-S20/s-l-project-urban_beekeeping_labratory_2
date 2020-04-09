@@ -71,6 +71,7 @@ threshTicks();
 var tHandle = thresh.insert("rect", ".track-overlay")
                     .attr("transform", "translate(50, -2)")
                     .attr("class", "handle")
+                    .attr("id", "thresh-handle")
                     .attr("height", 55)
                     .attr("width", 5);
 

@@ -307,6 +307,7 @@ function getData(date, count_tag) {
 		svg.call(zoom.transform, d3.zoomIdentity)
 		d3.select("#gstart").attr("stop-color", ramp(minVal))
 		d3.select("#gstop").attr("stop-color", ramp(maxVal))
+		d3.select("#thresh-handle").attr("x", 0);
 		threshTicks();
 }
 
