@@ -14,7 +14,7 @@ thead = table.append("thead"),
 tbody = table.append("tbody");
                 
 // load data
-d3.csv('data/MassDataClean.csv', function(data) {
+d3.csv('data/NewMassDataClean.csv', function(data) {
 
     keys     = Object.keys(data[0]),
     allData  = data;
@@ -38,7 +38,11 @@ function renderTable(date) {
     });
   
     currentData = filtered
-
+  if (currentData.length > 15) {
+    d3.select(".container").style("overflow-y", "scroll");
+  } else {
+    d3.select(".container").style("overflow-y", "hidden");
+  }
   tRefs = {};
   var selecting = false;
   brushedRows = [];
