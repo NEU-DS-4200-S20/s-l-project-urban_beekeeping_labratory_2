@@ -16,7 +16,7 @@ var sliderFill = d3
     .sliderBottom()
     .min(startDate)
     .max(endDate)
-    .width(300)
+    .width(width)
     .tickFormat(d3.timeFormat("%Y"))
     .ticks(8)
     .default(0.015)

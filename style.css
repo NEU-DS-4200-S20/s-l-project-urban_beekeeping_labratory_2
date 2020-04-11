@@ -9,6 +9,13 @@ h1, h2, h3 {
 	line-height: 1.2
 }
 
+#titles {
+	line-height: 0.7;
+	font-size: 20px;
+	font-weight: normal;
+	padding-left: 40px;
+}
+
 /* Your text should be in a nice narrow column */
 
 .content-column {
@@ -239,7 +246,7 @@ div.tooltip {
 	height: 30px;
 	border: 1px solid #999;
 	font-size: 16px;
-	color: rgba(0, 71, 129, 1.0);
+	color: #000;
 	background-color: #fff;
 	border-radius: 3px;
 }
