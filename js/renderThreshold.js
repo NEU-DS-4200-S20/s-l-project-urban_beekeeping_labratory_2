@@ -30,7 +30,8 @@ var thresh = svg.append("g")
     // .attr("transform", "translate(" + margin.left + "," + height / 4 + ")");
 
 thresh.insert("rect")
-    .attr("width", x.range()[1])
+    //.attr("width", x.range()[1])
+    .attr("width", 100)
     .attr("height", 50)
     .style("fill", "url(#grad")
     .attr("transform", "translate(50, 0)")
