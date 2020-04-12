@@ -94,6 +94,30 @@ var tHandle = thresh.insert("rect", ".track-overlay")
                     .attr("width", 5);
 
 /**
+ * Handles determining path's fill color based on threshold
+ * @param {*} path - d3 path element
+ * @param {*} threshed - Indicator for path being within threshold
+ * @param {*} fill - Path fill color
+ */
+function fillPath(path, threshed, fill) {
+    d3.select(path)
+        .classed("threshed", function() {
+        return threshed;
+    }).style("fill", fill);
+}
+
+/**
+ * Handles determining if rows should display based on threshold
+ * @param {*} rows - Current table rows
+ * @param {*} display - Indicator to display rows
+ */
+function displayTableRows(rows, display) {
+    Object.values(rows).forEach(row => {
+        d3.select(row).style("display", display);
+    })
+}
+
+/**
  * Handles behaviour for deselecting regions & rows based on threshold
  * @param {*} h - Current threshold value
  */
@@ -101,28 +125,19 @@ function dehighlight(h) {
     tHandle.attr("x", x(h));
     var amt = (x(h) / x(endDate)) * maxVal;
     Object.keys(mRefs).forEach(zip => {
+        // Retrieve all regions/rows & corresponding data
         var path = mRefs[zip];
         var rows = tRefs[zip];
         var pathData = d3.select(path).attr("id").slice(6);
         pathData = parseFloat(pathData) / 2;
         if (pathData <= amt) {
-            d3.select(path)
-                .classed("threshed", function() {
-                    return true;
-                })
-                .style("fill", "#ccc");
-            Object.values(rows).forEach(row => {
-                d3.select(row).style("display", "none");
-            })
+            // Path not within threshold; do not display path/corresponding rows
+            fillPath(path, true, "#ccc")
+            displayTableRows(rows, "none");
         } else {
-            d3.select(path)
-                .classed("threshed", function() {
-                    return false;
-                })
-                .style("fill", ramp(pathData * 2));
-            Object.values(rows).forEach(row => {
-                d3.select(row).style("display", "");
-            })
+            // Path within threshold; display path/corresponding rows
+            fillPath(path, false, ramp(pathData * 2));
+            displayTableRows(rows, "");
         }
     })
 };
