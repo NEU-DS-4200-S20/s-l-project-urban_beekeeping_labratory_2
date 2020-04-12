@@ -1,6 +1,6 @@
 // Intialize height and width for map svg element.
 var width = 600;
-var height = 370;
+var height = 400;
 
 // Initialize min and max colors for chloropleth color scale.
 var lowColor = '#5DADE2'

@@ -31,9 +31,9 @@ var thresh = svg.append("g")
 
 thresh.insert("rect")
     .attr("width", x.range()[1])
-    .attr("height", 50)
+    .attr("height", 25)
     .style("fill", "url(#grad")
-    .attr("transform", "translate(50, 0)")
+    .attr("transform", "translate(50, 12)")
 
 thresh.append("line")
     .attr("class", "track")
@@ -61,6 +61,7 @@ function threshTicks() {
         thresh.append("text")
                 .attr("class", "label")
                 .text(Math.round(i).toString())
+                .attr("font-size", "11px")
                 .attr("transform", "translate(" + startTransX + "," + startTransY + ")")
         startTransX += (x.range()[1] / ((maxVal - minVal) / 2));
     }
@@ -69,10 +70,10 @@ function threshTicks() {
 threshTicks();
 
 var tHandle = thresh.insert("rect", ".track-overlay")
-                    .attr("transform", "translate(50, -2)")
+                    .attr("transform", "translate(50, 0)")
                     .attr("class", "handle")
                     .attr("id", "thresh-handle")
-                    .attr("height", 55)
+                    .attr("height", 45)
                     .attr("width", 5);
 
 function dehighlight(h) {

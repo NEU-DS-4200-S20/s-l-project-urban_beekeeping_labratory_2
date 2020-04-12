@@ -11,62 +11,43 @@ var margin = {top:0, right:50, bottom:0, left:50},
     width = 960 -margin.left - margin.right,
     height = 200 - margin.top - margin.bottom;
 
-var svg = d3.select("#slider")
-    .append("svg")
+
+var sliderFill = d3
+    .sliderBottom()
+    .min(startDate)
+    .max(endDate)
+    .width(width)
+    .tickFormat(d3.timeFormat("%Y"))
+    .ticks(8)
+    .default(0.015)
+    .fill('#2196f3')
+    .on('onchange', val => {
+      d3.select('.label').text(formatDate(sliderFill.value()));
+      highlight(sliderFill.value());
+    });
+
+
+var gFill = d3
+    .select('div#slider-fill')
+    .append('svg')
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height);
-    
-var x = d3.scaleTime()
-    .domain([startDate, endDate])
-    .range([0, width])
-    .clamp(true);
+    .attr("height", height)
+    .append('g')
+    .attr('transform', 'translate(50,100)');
 
-var slider = svg.append("g")
-    .attr("class", "slider")
-    .attr("transform", "translate(" + margin.left + "," + height / 2 + ")");
-
-slider.append("line")
-    .attr("class", "track")
-    .attr("x1", x.range()[0])
-    .attr("x2", x.range()[1])
-  .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
-    .attr("class", "track-inset")
-  .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
-    .attr("class", "track-overlay")
-    .call(d3.drag()
-        .on("start.interrupt", function() { slider.interrupt(); })
-        .on("start drag", function() { highlight(x.invert(d3.event.x)); }));
-
-slider.insert("g", ".track-overlay")
-    .attr("class", "ticks")
-    .attr("transform", "translate(0," + 18 + ")")
-  .selectAll("text")
-    .data(x.ticks(10))
-    .enter()
-    .append("text")
-    .attr("x", x)
-    .attr("y", 10)
-    .attr("font-family", "Open Sans")
-    .attr("text-anchor", "middle")
-    .text(function(d) { return formatDateIntoYear(d); });
-
-var label = slider.append("text")  
+var label = d3
+    .select('svg')
+    .append("text")  
     .attr("class", "label")
     .attr("text-anchor", "middle")
     .text(formatDate(startDate))
-    .attr("transform", "translate(0," + (-25) + ")")
+    .attr("transform", "translate(" + (75) + "," + (75) + ")")
 
-var handle = slider.insert("circle", ".track-overlay")
-    .attr("class", "handle")
-    .attr("r", 9);
+gFill.call(sliderFill);
+
 
 // updates the map and the table based on the current values of the slider and dropdown menu
 function highlight(h) {
-    d3.select()
-    handle.attr("cx", x(h));
-    label
-        .attr("x", x(h))
-        .text(formatDate(h));
         date = formatDateForMap(h);
         renderTable(date);
         getData(date, dropdownCount);
