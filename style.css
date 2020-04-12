@@ -13,7 +13,7 @@ h1, h2, h3 {
 	line-height: 0.7;
 	font-size: 20px;
 	font-weight: normal;
-	padding-left: 40px;
+	padding-left: 7px;
 }
 
 /* Your text should be in a nice narrow column */
@@ -30,9 +30,17 @@ h1, h2, h3 {
 	height: 100%;
 }
 
+.column-table {
+	float: left;
+	width: 40%;
+	padding-left: 60px;
+	padding-top: 70px;
+}
+
 .container {
 	height: 400px;
 	width: 100%;
+	transform: scale(0.9);
 	overflow-y: hidden;
 	overflow-x: hidden;
 }
@@ -63,11 +71,6 @@ h1 {
 	padding-left: 40px;
 }
 
-map {
-	height: 100%;
-	width: 100%;
-	color: rgba(10, 20, 43, 0.808);
-}
 
 table {
 	width: 100%;
@@ -99,7 +102,7 @@ th {
 }
 
 table tbody tr:hover {
-	background-color: rgb(252, 227, 160);
+	background-color: rgb(139, 209, 250);
 }
 
 table tbody tr.hovered {
@@ -129,27 +132,23 @@ td {
 	float: left;
 	width: 40%;
 	padding-left: 60px;
-	padding-top: 30px;
 }
 
 .column-sliders {
 	float: left;
 	width: 65%;
-	/*padding-left: 60px;*/
-	padding-top: 30px;
+	transform: scale(0.8);
 }
 
 .column-directions {
 	float: left;
 	width: 100%;
 	height: 100%;
-	/*padding-left: 60px;*/
 	padding-top: 30px;
 }
 
 .row {
-	height: 40%;
-	padding-top: 30px;
+	height: 10%;
 	/* content: "";
 	display: table;
 	clear: both; */
@@ -272,11 +271,12 @@ div.tooltip {
 	  }
 	  
 .selectbox {
-	width: 170px;
+	width: 140px;
 	height: 30px;
 	border: 1px solid #999;
-	font-size: 16px;
+	font-size: 10px;
 	color: #000;
 	background-color: #fff;
 	border-radius: 3px;
+	margin-left: 30px;
 }

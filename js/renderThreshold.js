@@ -44,7 +44,7 @@ thresh.insert("rect")
     .attr("width", x.range()[1])
     .attr("height", 25)
     .style("fill", "url(#grad")
-    .attr("transform", "translate(50, 12)")
+    .attr("transform", "translate(20, 12)")
 
 // Adds threshold user-controlled slider line
 thresh.append("line")
@@ -52,7 +52,7 @@ thresh.append("line")
     .attr("x1", x.range()[0])
     .attr("x2", x.range()[1])
     .attr("stroke-width", 110)
-    .attr("transform", "translate(75, 25)")
+    .attr("transform", "translate(45, 25)")
     .style("opacity", 0.0)
     .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
     .attr("class", "track-inset")
@@ -70,7 +70,7 @@ thresh.append("line")
 function threshTicks() {
     d3.select("#thresh-slider").selectAll("text").remove();
     // Starting coordinates for tick marks
-    var startTransX = 52;
+    var startTransX = 22;
     var startTransY = 70;
     // Tick mark increment amount
     var incr = 2
@@ -87,7 +87,7 @@ threshTicks();
 
 // Adds threshold user-controlled slider handle
 var tHandle = thresh.insert("rect", ".track-overlay")
-                    .attr("transform", "translate(50, 0)")
+                    .attr("transform", "translate(20, 0)")
                     .attr("class", "handle")
                     .attr("id", "thresh-handle")
                     .attr("height", 45)

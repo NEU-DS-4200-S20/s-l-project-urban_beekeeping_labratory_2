@@ -13,7 +13,7 @@ var startDate = new Date("2012-04-16"),
 // Declare pixel offsets for container
 var margin = { top: 0, right: 50, bottom: 0, left: 50 },
     width = 960 - margin.left - margin.right,
-    height = 200 - margin.top - margin.bottom;
+    height = 100 - margin.top - margin.bottom;
 
 // Initialize slider element
 var sliderFill = d3
@@ -37,7 +37,7 @@ var gFill = d3
     .attr("width", width + margin.left + margin.right)
     .attr("height", height)
     .append('g')
-    .attr('transform', 'translate(50,100)');
+    .attr('transform', 'translate(20,10)');
 
 // Generate date labels for slider
 var label = d3
@@ -46,7 +46,7 @@ var label = d3
     .attr("class", "label")
     .attr("text-anchor", "middle")
     .text(formatDate(startDate))
-    .attr("transform", "translate(" + (75) + "," + (75) + ")")
+    .attr("transform", "translate(" + (45) + "," + (75) + ")")
 
 gFill.call(sliderFill);
 
