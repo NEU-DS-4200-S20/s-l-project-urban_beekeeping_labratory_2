@@ -67,7 +67,7 @@ function filterTableData(date) {
  * @param {*} currentData - Isolated dataset
  */
 function setTableScroll(currentData) {
-  if (currentData.length > 8) {
+  if (currentData.length > 15) {
     d3.select(".container").style("overflow-y", "scroll");
   } else {
     d3.select(".container").style("overflow-y", "hidden");
