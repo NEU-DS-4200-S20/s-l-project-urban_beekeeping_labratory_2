@@ -1,40 +1,52 @@
+// Global variables for floor/ceiling of dataset
 var minVal = 0;
 var maxVal = 19;
 
+// Initializes threshold container
 var svg = d3.select("#thresh-slider")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height);
 
-
+// Generates spanning function for threshold data values
 var x = d3.scaleTime()
     .domain([startDate, endDate])
     .range([0, width])
     .clamp(true);
 
-// Threshold
+
+/**
+ * Sets gradient start/stop colors to default white values
+ */
+function initializeGradientColors() {
+    gradient.append("stop")
+        .attr("id", "gstart")
+        .attr("offset", "0%")
+        .attr("stop-color", "#ffffff");
+    gradient.append("stop")
+        .attr("id", "gstop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#ffffff");
+}
+
+// Declares color gradient for threshold
 var defs = svg.append("defs");
 var gradient = defs.append("linearGradient")
     .attr("id", "grad")
-gradient.append("stop")
-    .attr("id", "gstart")
-    .attr("offset", "0%")
-    .attr("stop-color", "#ffffff");
-gradient.append("stop")
-    .attr("id", "gstop")
-    .attr("offset", "100%")
-    .attr("stop-color", "#ffffff");
+initializeGradientColors();
 
+// Declares slider for threshold
 var thresh = svg.append("g")
     .attr("class","slider")
-    // .attr("transform", "translate(" + margin.left + "," + height / 4 + ")");
 
+// Adds threshold color bar
 thresh.insert("rect")
     .attr("width", x.range()[1])
     .attr("height", 25)
     .style("fill", "url(#grad")
     .attr("transform", "translate(50, 12)")
 
+// Adds threshold user-controlled slider line
 thresh.append("line")
     .attr("class", "track")
     .attr("x1", x.range()[0])
@@ -52,10 +64,15 @@ thresh.append("line")
             dehighlight(x.invert(d3.event.x));
         }));
 
+/**
+ * Sets tick marks for threshold slider
+ */
 function threshTicks() {
     d3.select("#thresh-slider").selectAll("text").remove();
+    // Starting coordinates for tick marks
     var startTransX = 52;
     var startTransY = 70;
+    // Tick mark increment amount
     var incr = 2
     for (var i = minVal; i <= maxVal; i += incr) {
         thresh.append("text")
@@ -66,9 +83,9 @@ function threshTicks() {
         startTransX += (x.range()[1] / ((maxVal - minVal) / 2));
     }
 }
-
 threshTicks();
 
+// Adds threshold user-controlled slider handle
 var tHandle = thresh.insert("rect", ".track-overlay")
                     .attr("transform", "translate(50, 0)")
                     .attr("class", "handle")
@@ -76,6 +93,10 @@ var tHandle = thresh.insert("rect", ".track-overlay")
                     .attr("height", 45)
                     .attr("width", 5);
 
+/**
+ * Handles behaviour for deselecting regions & rows based on threshold
+ * @param {*} h - Current threshold value
+ */
 function dehighlight(h) {
     tHandle.attr("x", x(h));
     var amt = (x(h) / x(endDate)) * maxVal;
