@@ -97,17 +97,44 @@
     </div>
 
     <div class="column-sliders">
-        <div class="row">
-            <div id="slider-fill"></div>
-        </div>
-        <div class="row">
-            <h3 id='titles'>Threshold Slider</h3>
-            <div class="thresh-slider" id="thresh-slider"></div>
-        </div>
+      <div class="row">
+        <div id="slider-fill"></div>
+      </div>
+      <div class="row">
+        <h3 id='titles'>Threshold Slider</h3>
+        <div class="thresh-slider" id="thresh-slider"></div>
+      </div>
     </div>
     <div class="container-slider">
       <div class="column-directions">
-            <p></p>
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtn">Click This for Context and Directions</button>
+
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>First, choose from the dropdown which type of health you wish to focus on: bee, brood (baby bee), or
+              honey. </p>
+            <p>Then slowly drag the slider across the dates to see how the map and table change to represent the data
+              for that time period. </p>
+            <p>Here is an explanation of what the data means: Each hive is simply a set of boxes. Enclosed in each box
+              is 10 frames (almost like window frames). Each frame has 2 sides, so a box has 20 frame sides. Each count
+              represents the number of frame sides that contain bees/broods/honey. The higher the count, the more frame
+              sides are filled, and the darker the color is for that region in the map.</p>
+            <p>Furthermore, since there could be multiple hives in a zip code region, the map aggregates the counts by
+              taking an average.</p>
+            <p>Additionally, you can move the threshold slider towards the right to make only the zip codes containing
+              hives with that average number of frame sides at minimum continue to show up on the map.</p>
+            <p>Lastly, feel free to click and drag over regions in the map (brushing) to see which specific hives in the
+              table correspond to those regions (linking), and on the flip side, click and drag over rows in the table
+              to see where those hives are located in the map. </p>
+          </div>
+
+        </div>
+
       </div>
     </div>
 
@@ -134,26 +161,7 @@
     <img src=images/FinalVizScreenshot2.png width="100%">
     <img src=images/FinalVizScreenshot3.png width="100%">
     <p><em>
-        We chose this design because we believe that it solves all the tasks we originally set out to accomplish, each
-        to the highest extent possible. On the top left of our visual is a choropleth, which is a map with color
-        encodings that visualize the level of hive health, and it solves our task of “examining blue zones
-        geographically”. On the top right of our visual is a table, and it contains the explicit data records in full.
-        Below the map and table is a selector for which type of health we want the map to focus on: bee, brood, or
-        honey. Below that is another key aspect to our visualization, the slider. As you move the slider to the right,
-        it represents the passage of time, and the map and table change according to what time period the user chooses
-        to focus on. This solves our task of “interactively showing changes over time”. (Following is not coded yet)
-        Below this slider is another one that represents the minimum threshold the user expects the shown data to meet.
-        To be more specific, a user could only want to view regions with only the best hive health, in which case the
-        slider would be pushed towards the right edge. This slider will solve the task of “choosing location for hive
-        based on hotspot data”. In terms of UI, the impressive feature of our visualization is that it incorporates
-        linking between every single slider and view, and additional linking through a brushing feature between the map
-        and the table. This means that if a user holds down their mouse and moves across regions on the map, hives on
-        the table located in those regions will highlight as well. On the other side, if the user holds down their mouse
-        and selects a few rows from the table, the map will highlight the regions that the bee hives in those rows
-        belong in. Additionally, linking between all of the pieces means that the map and table only show the user the
-        data corresponding to the current time period and threshold as per the state of the slider. Ultimately, the
-        entire visualization is easy to use and understand through our thoughtful choices in coming to this final
-        design.
+        We chose this design because we believe that it solves all the tasks we originally set out to accomplish, each to the highest extent possible. On the top left of our visual is a choropleth, which is a map with color encodings that visualize the level of hive health, and it solves our task of “examining blue zones geographically”. On the top right of our visual is a table, and it contains the explicit data records in full. Below the map is a selector for which type of health we want the map to focus on: bee, brood, or honey. Below that is another key aspect to our visualization, the time slider. As you move that slider to the right, it represents the passage of time, and the map and table change according to what time period the user chooses to focus on. This solves our task of “interactively showing changes over time”. Below this slider is another one that represents the minimum threshold the user expects the shown data to meet. To be more specific, a user could only want to view regions with only the best hive health, in which case the slider would be pushed towards the right edge. This slider will solve the task of “choosing location for hive based on hotspot data”. In terms of UI, the impressive feature of our visualization is that it incorporates linking between every single slider and view, and additional linking through a brushing feature between the map and the table. This means that if a user holds down their mouse and moves across regions on the map, hives on the table located in those regions will highlight as well. On the other side, if the user holds down their mouse and selects a few rows from the table, the map will highlight the regions that the bee hives in those rows belong in. Additionally, linking between all of the pieces means that the map and table only show the user the data corresponding to the current time period and threshold as per the states of the sliders. Ultimately, the entire visualization is easy to use and understandable through our thoughtful choices in coming to this final design.
       </em></p>
 
     <h1>Data Analysis</h1>
@@ -182,7 +190,8 @@
 
     <p><em>Short summary of work completed and areas for improvement/future-work.</em></p>
 
-    <p><em>Expectation: Meaningfully wraps up project and has good future directions.</em></p>
+    <p><em>This project was made with the efforts of DS4200 students to help a local service-learning partner, the Urban Bee Laboratory. Our team spent a semester working with the lab to identify their needs, brainstorming ideas for how to fulfill them using the content we learned in class, and scrutinizingly choosing the most comprehensive design to accomplish the tasks that best serve those needs. To be specific, we saw how the lab had data on their geographical presence in Massachusetts focused around various aspects of hive health. We heard their desire to solve the question of “where” they have succeeded in the past and where they should direct their next efforts. We learned about the process of designing complete visualizations in class, from theoretically employing the best visual encodings in certain situations to practically programming them in JavaScript using the D3 library. Ultimately, our implementation in this webpage provides the lab with a thorough exploration tool to (1) examining blue zones geographically, (2) interactively showing changes over time, and (3) choosing location for hives based on hotspot data. In the future, we hope that this page can be integrated into the lab’s direct website so that they can publicize their work to external partners and receive additional funding to continue the great work they are doing. If we had more time to work on this visualization, our team would focus on adding more functionality to the map view, perhaps by allowing for a panning feature once a user zooms into it. Our visualization allows for excellent exploration,so an additional feature we would like to incorporate could be views that center around analysis of the data we are displaying. This would make our tool even more robust. Nevertheless, with just the work we have completed so far, it was a pleasure to serve our local community as well as cement our skills in programmatically producing visualizations, encompassing all that we have learned in DS4200 this past semester.
+    </em></p>
 
 
     <h1>Acknowledgments</h1>
@@ -226,6 +235,11 @@
         <a
           href="https://bl.ocks.org/tiffylou/88f58da4599c9b95232f5c89a6321992">https://bl.ocks.org/tiffylou/88f58da4599c9b95232f5c89a6321992</a>
       </p>
+
+      <p>Button for Context/Instructions:
+        <a
+          href="https://www.w3schools.com/howto/howto_css_modals.asp">https://www.w3schools.com/howto/howto_css_modals.asp</a>
+      </p>
     </p>
 
     <ul>
@@ -252,6 +266,7 @@
   <script src="https://d3js.org/d3-drag.v1.min.js"></script>
   <script src="https://d3js.org/d3-brush.v1.min.js"></script>
   <script src="js/visualization.js"></script>
+  <script src="js/helpButton.js"></script>
   <script src="js/renderTable.js"></script>
   <script src="js/renderSlider.js"></script>
   <script src="js/renderThreshold.js"></script>
