@@ -9,6 +9,7 @@ var tRefs = {}
 var brushedRows = []
 var brushedData = []
 
+// Append html tags to create the table header and body.
 var table = d3.selectAll("#table-container").append("table"),
 thead = table.append("thead"),
 tbody = table.append("tbody");
@@ -58,6 +59,8 @@ function renderTable(date) {
                 .classed("even", function(d, i) {
                   return i % 2 == 1; 
                 })
+                // Highlighs rows as user hovers over them. Also highlights selected
+                // rows when the user is brushing over the table.
                 .on("mouseover", function(d) {
                     var target = mRefs[d.ZipCode.toString()];
                     d3.select(target).dispatch("mouselinkon");
@@ -71,6 +74,8 @@ function renderTable(date) {
                       }
                     }
                 })
+                // Unhiglights rows as user hovers over them. Keeps selected
+                // rows highlighed when the user is brushing over the table.
                 .on("mouseout", function(d) {
                   if (!selecting) {
                     if (!brushedRows.includes(this)) {
@@ -91,6 +96,7 @@ function renderTable(date) {
                     }
                   }
                 })
+                // Initiates brushing so the user can select single or multiple rows.
                 .on("mousedown", function(d) {
                   selecting = true;
                   // Deselect All
@@ -115,6 +121,7 @@ function renderTable(date) {
                   brushedData.push(d);
                   d3.select(this).dispatch("mouseover");
                 })
+                // Signals brusing on the table to stop once the mouse is released.
                 .on("mouseup", function (d) {
                   selecting = false;
                   if (brushedRows.length == 1) {

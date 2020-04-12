@@ -1,9 +1,12 @@
+
+// Date formattings
 var formatDateIntoYear = d3.timeFormat("%Y");
 var formatDate = d3.timeFormat("%b %Y");
 var formatDateForMap = d3.timeFormat("%Y-%m");
 let dropdownCount = "BeeCount";
 let date = "2012-04";
 
+// Start and end dates of the dataset.
 var startDate = new Date("2012-04-16"),
     endDate = new Date("2020-02-20");
 
@@ -12,6 +15,9 @@ var margin = {top:0, right:50, bottom:0, left:50},
     height = 200 - margin.top - margin.bottom;
 
 
+// Code to generate date slider. Have the ticks on the slider be the years. Change label
+// to indicate what month and year the slider is on and pass this date to the highligh 
+// function to change the data in the table and the map.
 var sliderFill = d3
     .sliderBottom()
     .min(startDate)
@@ -27,6 +33,7 @@ var sliderFill = d3
     });
 
 
+// Append the svg to render the date slider.
 var gFill = d3
     .select('div#slider-fill')
     .append('svg')
@@ -35,6 +42,7 @@ var gFill = d3
     .append('g')
     .attr('transform', 'translate(50,100)');
 
+// Label to indicate the date the slider is on.
 var label = d3
     .select('svg')
     .append("text")  
