@@ -112,6 +112,7 @@ function resetHoverRows() {
 
 /**
  * Handles row selection when hovering with mouse
+ * @param {*} row - d3 row element
  * @param {*} hover - Indicator to display row selection
  */
 function setHoverRow(row, hover) {
@@ -192,9 +193,6 @@ function addRow(dPoint, idx) {
             resetHoverRows();
             // Reset containers
             resetBrushed();
-            // Brush current row
-            brushedRows.push(this);
-            brushedData.push(d);
             // Highlight current row
             d3.select(this).dispatch("mouseover");
           })
