@@ -18,6 +18,8 @@ var brushX;
 var brushY;
 var mapBrushing = false;
 
+// Declare global transform variable used for zooming
+var zoomTransform = 1;
 
 /**
  * Calculates distance from one coordinate to another
@@ -69,7 +71,7 @@ function selectBrushed(circleX, circleY, dist) {
 		// lies within the brushing circle
 		for (var i = 0; i < pathLength; i += 8) {
 			var point = val.getPointAtLength(i);
-			if (distance(point.x, point.y, circleX, circleY) < dist) {
+			if (distance(point.x, point.y, circleX, circleY) < (dist / zoomTransform)) {
 				d3.select(val).dispatch("mouselinkon2");
 				mapBrushed = true;
 				break;
@@ -473,5 +475,7 @@ d3.select('svg').on('mousedown.zoom', null);
  * Scales map to reflect new zoom transformation
  */
 function zoomed() {
-	d3.select("#map-container").select("svg").select("g").attr("transform", d3.event.transform);
+	var z = d3.event.transform;
+	d3.select("#map-container").select("svg").select("g").attr("transform", z);
+	zoomTransform = z.k;
 }
