@@ -54,8 +54,8 @@ gFill.call(sliderFill);
 // updates the map and the table based on the current values of the slider and dropdown menu
 function highlight(h) {
     date = formatDateForMap(h);
-    renderTable(date);
     getData(date, dropdownCount);
+    renderTable(date);
 }
 
 // code for the dropdown to select the different kinds of counts bee, brood or honey to display on the map

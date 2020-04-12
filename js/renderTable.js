@@ -8,6 +8,9 @@ var keys,
     startPos = 0,
     increment = 1000;
 
+// Initialize global async variable
+var nextRowTimeout;
+
 // Initialize global table variables
 var table,
     thead,
@@ -17,6 +20,9 @@ var table,
 // Initialize global brushed variables
 var brushedRows = [],
     brushedData = [];
+
+// Initialize global selection tracker
+var selecting = false;
 
 /**
  * Generates empty table element
@@ -158,74 +164,104 @@ function exitHoverRow(selecting, row, rowData) {
   }
 }
 
+/**
+ * Adds row to table that corresponds with data
+ * @param {*} dPoint - Current data point
+ * @param {*} idx - Currrent row index
+ */
+function addRow(dPoint, idx) {
+    tbody.append("tr")
+          .datum(dPoint)
+          .classed("even", function() {
+            return idx % 2 == 1; 
+          })
+          // Highlights rows as user hovers over them. Also highlights selected
+          // rows when the user is brushing over the table.
+          .on("mouseover", function(rowData) {
+              var target = mRefs[rowData.ZipCode.toString()];
+              d3.select(target).dispatch("mouselinkon");
+              enterHoverRow(selecting, this, rowData);
+          })
+          .on("mouseout", function(rowData) {
+            exitHoverRow(selecting, this, rowData);
+          })
+          // Initiates brushing so the user can select single or multiple rows.
+          .on("mousedown", function(d) {
+            selecting = true;
+            // Deselect all rows & regions
+            resetHoverRows();
+            // Reset containers
+            resetBrushed();
+            // Brush current row
+            brushedRows.push(this);
+            brushedData.push(d);
+            // Highlight current row
+            d3.select(this).dispatch("mouseover");
+          })
+          // Signals brusing on the table to stop once the mouse is released.
+          .on("mouseup", function (d) {
+            selecting = false;
+            // Deselect if only 1 row brushed
+            if (brushedRows.length == 1) {
+              brushedRows.pop();
+              brushedData.pop();
+              d3.select(this).dispatch("mouseout");
+            }
+          })
+          .on("start", function(rowData) {
+            resetTableReferences(this, rowData);
+          })
+          .dispatch("start")
+          .selectAll('td')
+      .data(function (rowData) {
+        return keys.map(function (e) {
+          return {
+            key: e,
+            value: rowData[e]
+          }
+        });
+      }).enter()
+      .append('td')
+      .text(function (rowData) {
+        return rowData.value;
+      });
+}
+
+/**
+ * Asynchronously adds the next row to the table
+ * @param {*} idx - Current row index
+ */
+function generateNextRow(idx) {
+  nextRowTimeout = setTimeout(function() {
+    var dPoint = currentData[idx];
+    if (dPoint != undefined) {
+      addRow(dPoint, idx);
+    } else {
+      return;
+    }
+    idx++;
+    if (idx < currentData.length) {
+      generateNextRow(idx, selecting)
+    }
+  }, idx / 10);
+}
+
 //render table, passes in the current date on the slider to filter and display
 function renderTable(date) {
+  // Cancel generation of previous rows
+  clearTimeout(nextRowTimeout);
   currentData = filterTableData(date);
   setTableScroll(currentData);
   tRefs = {};
-  var selecting = false;
+  selecting = false;
   resetBrushed();
     
   // Delete previous rows.
   tbody.selectAll('tr').remove();
-  
-  // Create new rows.
-  var tr = tbody.selectAll("tr")
-                .data(currentData).enter()
-                .append("tr")
-                .classed("even", function(d, i) {
-                  return i % 2 == 1; 
-                })
-                // Highlights rows as user hovers over them. Also highlights selected
-                // rows when the user is brushing over the table.
-                .on("mouseover", function(rowData) {
-                    var target = mRefs[rowData.ZipCode.toString()];
-                    d3.select(target).dispatch("mouselinkon");
-                    enterHoverRow(selecting, this, rowData);
-                })
-                .on("mouseout", function(rowData) {
-                  exitHoverRow(selecting, this, rowData);
-                })
-                // Initiates brushing so the user can select single or multiple rows.
-                .on("mousedown", function(d) {
-                  selecting = true;
-                  // Deselect all rows & regions
-                  resetHoverRows();
-                  // Reset containers
-                  resetBrushed();
-                  // Brush current row
-                  brushedRows.push(this);
-                  brushedData.push(d);
-                  // Highlight current row
-                  d3.select(this).dispatch("mouseover");
-                })
-                // Signals brusing on the table to stop once the mouse is released.
-                .on("mouseup", function (d) {
-                  selecting = false;
-                  // Deselect if only 1 row brushed
-                  if (brushedRows.length == 1) {
-                    brushedRows.pop();
-                    brushedData.pop();
-                    d3.select(this).dispatch("mouseout");
-                  }
-                })
-                .on("start", function(rowData) {
-                  resetTableReferences(this, rowData);
-                })
-                .dispatch("start")
-      tr.selectAll('td')
-        .data(function (d) { 
-          return keys.map(function (e) {
-            return { 
-              key: e,
-              value: d[e]
-            }
-          });
-        }).enter()
-        .append('td')
-        .text(function (d) {
-          return d.value; 
-        });
+
+  // Generate all new rows
+  var x = 0;
+  generateNextRow(x, selecting);
 };
 
 
