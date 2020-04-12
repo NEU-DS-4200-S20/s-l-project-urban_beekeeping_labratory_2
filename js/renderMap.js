@@ -131,6 +131,7 @@ var mData = [];
 var geojson;
 
 var mRefs = {};
+var pathRefs = {};
 var ramp;
 
 /**
@@ -215,7 +216,7 @@ function displayTooltip(regionData) {
 }
 
 /**
- * Handles hover behaviour for regions
+ * Handles entering hover behaviour for regions
  * @param {*} region - d3 path element 
  * @param {*} regionData - Corresponding region data
  */
@@ -237,6 +238,10 @@ function hoverRegion(region, regionData) {
 	}
 }
 
+/**
+ * Handles exiting hover behaviour for regions 
+ * @param {*} region - d3 path element
+ */
 function exitHoverRegion(region) {
 	// Determines if region is within user defined threshold
 	if (!d3.select(region).classed("threshed")) {
@@ -325,6 +330,95 @@ function getRegionFill(regionData) {
 	}
 }
 
+/**
+ * Generates default map region paths
+ */
+function initMap() {
+	var mapGroup = resetMap();
+	// Draws the projection from the GeoJson file. 
+	mapGroup.selectAll("path")
+		.data(geojson.features)
+		.enter()
+		.append("path")
+		.attr("d", path)
+		.style("stroke", "#fff")
+		.style("stroke-width", "1")
+		.on("start", function (d) {
+			pathRefs[d.properties.ZCTA5CE10] = this;
+			mRefs[d.properties.ZCTA5CE10] = this;
+		})
+		.dispatch("start");
+}
+
+/**
+ * Updates map regions to reflect new data
+ * @param {*} data - Current bee data
+ */
+function updateMap(data) {
+	var dataZips = data.map((d) => d.key);
+	var tempRefs = {};
+	// Iterate through each map region
+	geojson.features.forEach(function(feature) {
+		var zipcode = feature.properties.ZCTA5CE10;
+		// Only alters regions that have changed
+		if ((zipcode in mRefs) || (dataZips.includes(zipcode))) {
+			var path = pathRefs[zipcode];
+			d3.select(path)
+					.attr("id", function (regionData) {
+						return getRegionId(regionData);
+					})
+					.style("fill", function (regionData) {
+						return getRegionFill(regionData);
+					})
+					// Mouse over helps with tooltip functionality to highlight the regions the user is over
+					// and to enable details on demand on the map.
+					.on("mouseover", function (regionData) {
+						displayTooltip(regionData);
+						hoverRegion(this, regionData);
+					})
+					// Mouse out ensures that a region will not be highlighted and the details on demand will
+					// disappear when a user leaves the region.
+					.on("mouseout", function (d) {
+						tooltip.transition()
+							.duration(500)
+							.style("opacity", 0);
+						exitHoverRegion(this);
+					})
+					.on("mouselinkon", function (d) {
+						// Determines if region is within user defined threshold
+						if (!d3.select(this).classed("threshed")) {
+							// Sets fill to show region is selected
+							d3.select(this).style("fill", "#fccc88");
+						}
+					})
+					.on("mouselinkon2", function (d) {
+						// Determines if region is within user defined threshold
+						if (!d3.select(this).classed("threshed")) {
+							// Sets fill to show region is selected
+							d3.select(this).style("fill", "#fccc88");
+							// Adds region's rows to brushed rows
+							addRegionRows(d);
+						}
+					})
+					.on("mouselinkoff", function (regionData) {
+						// Determines if region is within user defined threshold
+						if (!d3.select(this).classed("threshed")) {
+							// Sets fill to show region is deselected
+							d3.select(this).style("fill", getRegionFill(regionData));
+							resetRegionRows(regionData, false);
+						}
+					})
+					.on("start", function (d) {
+						if (d.properties.value != undefined) {
+							tempRefs[d.properties.ZCTA5CE10] = this;
+						}
+					})
+					.dispatch("start");
+		}
+	})
+	mRefs = tempRefs;
+}
+
 
 /**
  * Filters set of data to subset containing only data
@@ -356,10 +450,10 @@ function getSubset(data, count_tag) {
 // to display the correct data for the designated date. Also it will feed the 
 // data type wanted based on user selection from the dropdown box. This function also
 // initiates the rendering of the map and it's user functionality dispatch calls.
-function getData(date, count_tag) {
+function getData(date, count_tag, startup=false) {
 	resetBrushed();
 
-	// Filter data so only values for the designated date are paased forward.
+	// Filter data so only values for the designated date are passed forward.
 	var filtered = mData.filter(function (d) {
 		return d.Date.includes(date);
 	});
@@ -382,67 +476,15 @@ function getData(date, count_tag) {
 	// Create a domain objects for the color scale.
 	ramp = d3.scaleLinear().domain([minVal, maxVal]).range([lowColor, highColor])
 
+	// Assign map regions to corresponding data
 	setMapData(data);
-	var mapGroup = resetMap();
 
-	// Draws the projection from the GeoJson file. 
-	mapGroup.selectAll("path")
-		.data(geojson.features)
-		.enter()
-		.append("path")
-		.attr("d", path)
-		.attr("id", function (regionData) {
-			return getRegionId(regionData);
-		})
-		.style("stroke", "#fff")
-		.style("stroke-width", "1")
-		.style("fill", function (regionData) {
-			return getRegionFill(regionData);
-		})
-		// Mouse over helps with tooltip functionality to highlight the regions the user is over
-		// and to enable details on demand on the map.
-		.on("mouseover", function (regionData) {
-			displayTooltip(regionData);
-			hoverRegion(this, regionData);
-		})
-		// Mouse out ensures that a region will not be highlighted and the details on demand will
-		// disappear when a user leaves the region.
-		.on("mouseout", function (d) {
-			tooltip.transition()
-				.duration(500)
-				.style("opacity", 0);
-			exitHoverRegion(this);
-		})
-		.on("mouselinkon", function (d) {
-			// Determines if region is within user defined threshold
-			if (!d3.select(this).classed("threshed")) {
-				// Sets fill to show region is selected
-				d3.select(this).style("fill", "#fccc88");
-			}
-		})
-		.on("mouselinkon2", function (d) {
-			// Determines if region is within user defined threshold
-			if (!d3.select(this).classed("threshed")) {
-				// Sets fill to show region is selected
-				d3.select(this).style("fill", "#fccc88");
-				// Adds region's rows to brushed rows
-				addRegionRows(d);
-			}
-		})
-		.on("mouselinkoff", function (regionData) {
-			// Determines if region is within user defined threshold
-			if (!d3.select(this).classed("threshed")) {
-				// Sets fill to show region is deselected
-				d3.select(this).style("fill", getRegionFill(regionData));
-				resetRegionRows(regionData, false);
-			}
-		})
-		.on("start", function (d) {
-			if (d.properties.value != undefined) {
-				mRefs[d.properties.ZCTA5CE10] = this;
-			}
-		})
-		.dispatch("start");
+	// Handles first getData case
+	if (startup) {
+		initMap();
+	}
+	updateMap(data);
+
 	// Reset zoom transformation
 	svg.call(zoom.transform, d3.zoomIdentity);
 	resetThreshold();
@@ -455,7 +497,7 @@ d3.csv("data/NewMassDataClean.csv", function (massData) {
 	d3.json("data/ma_zip_codes_geo.min.json", function (err, gJson) {
 		geojson = gJson;
 		projection.fitSize([550, 450], geojson);
-		getData("2012-04", "BeeCount");
+		getData("2012-04", "BeeCount", true);
 	});
 });
 
