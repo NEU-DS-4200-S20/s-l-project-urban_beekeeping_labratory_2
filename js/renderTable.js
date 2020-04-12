@@ -28,6 +28,11 @@ function initializeTable() {
 }
 initializeTable();
 
+// Append html tags to create the table header and body.
+var table = d3.selectAll("#table-container").append("table"),
+thead = table.append("thead"),
+tbody = table.append("tbody");
+                
 // load data
 d3.csv('data/NewMassDataClean.csv', function(data) {
     keys     = Object.keys(data[0]),
@@ -179,12 +184,38 @@ function renderTable(date) {
                 })
                 .on("mouseover", function(rowData) {
                     var target = mRefs[rowData.ZipCode.toString()];
+                // Highlighs rows as user hovers over them. Also highlights selected
+                // rows when the user is brushing over the table.
+                .on("mouseover", function(d) {
+                    var target = mRefs[d.ZipCode.toString()];
                     d3.select(target).dispatch("mouselinkon");
                     enterHoverRow(selecting, this, rowData);
                 })
                 .on("mouseout", function(rowData) {
                   exitHoverRow(selecting, this, rowData);
+                // Unhiglights rows as user hovers over them. Keeps selected
+                // rows highlighed when the user is brushing over the table.
+                .on("mouseout", function(d) {
+                  if (!selecting) {
+                    if (!brushedRows.includes(this)) {
+                      var target = mRefs[d.ZipCode.toString()];
+                      d3.select(this).classed("hovered", function() {
+                        return false;
+                      })
+                      var mapBrushed = false;
+                      brushedData.forEach(bd => {
+                        var brushedZip = bd.ZipCode;
+                        if (brushedZip == d.ZipCode) {
+                          mapBrushed = true;
+                        }
+                      })
+                      if (!mapBrushed) {
+                        d3.select(target).dispatch("mouselinkoff");
+                      }
+                    }
+                  }
                 })
+                // Initiates brushing so the user can select single or multiple rows.
                 .on("mousedown", function(d) {
                   selecting = true;
                   // Deselect all rows & regions
@@ -197,6 +228,7 @@ function renderTable(date) {
                   // Highlight current row
                   d3.select(this).dispatch("mouseover");
                 })
+                // Signals brusing on the table to stop once the mouse is released.
                 .on("mouseup", function (d) {
                   selecting = false;
                   // Deselect if only 1 row brushed
