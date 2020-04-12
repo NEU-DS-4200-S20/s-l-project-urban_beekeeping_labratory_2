@@ -71,7 +71,8 @@ function selectBrushed(circleX, circleY, dist) {
 		// lies within the brushing circle
 		for (var i = 0; i < pathLength; i += 8) {
 			var point = val.getPointAtLength(i);
-			if (distance(point.x, point.y, circleX, circleY) < (dist / zoomTransform)) {
+			if (distance(zoomTransform.applyX(point.x), 
+				zoomTransform.applyY(point.y), circleX, circleY) < dist) {
 				d3.select(val).dispatch("mouselinkon2");
 				mapBrushed = true;
 				break;
@@ -477,5 +478,5 @@ d3.select('svg').on('mousedown.zoom', null);
 function zoomed() {
 	var z = d3.event.transform;
 	d3.select("#map-container").select("svg").select("g").attr("transform", z);
-	zoomTransform = z.k;
+	zoomTransform = z;
 }
