@@ -77,7 +77,7 @@ function threshTicks() {
     for (var i = minVal; i <= maxVal; i += incr) {
         thresh.append("text")
                 .attr("class", "label")
-                .text(Math.round(i).toString())
+                .text((Math.round(i) * 2).toString())
                 .attr("font-size", "11px")
                 .attr("transform", "translate(" + startTransX + "," + startTransY + ")")
         startTransX += (x.range()[1] / ((maxVal - minVal) / 2));
