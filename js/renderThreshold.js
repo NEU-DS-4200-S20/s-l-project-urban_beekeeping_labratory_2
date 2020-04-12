@@ -47,7 +47,7 @@ thresh.append("line")
     .select(function() { return this.parentNode.appendChild(this.cloneNode(true)); })
     .attr("class", "track-overlay")
     .call(d3.drag()
-        .on("start.interrupt", function() { slider.interrupt(); })
+        .on("start.interrupt", function() { thresh.interrupt(); })
         .on("start drag", function() { 
             dehighlight(x.invert(d3.event.x));
         }));
