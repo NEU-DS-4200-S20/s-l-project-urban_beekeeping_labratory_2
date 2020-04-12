@@ -31,14 +31,6 @@ function distance(x1, y1, x2, y2) {
 }
 
 /**
- * Sets currently brushed table rows & respect data to empty
- */
-function resetBrushed() {
-	brushedRows = [];
-	brushedData = [];
-}
-
-/**
  * Handles resetting the brush variables to their default values
  * @param {*} svgElement - d3 svg element with id #map-svg
  */
