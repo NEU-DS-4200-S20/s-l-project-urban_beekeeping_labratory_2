@@ -257,9 +257,17 @@ function renderTable(date) {
   // Delete previous rows.
   tbody.selectAll('tr').remove();
 
-  // Generate all new rows
-  var x = 0;
-  generateNextRow(x, selecting);
+  if (currentData.length == 0) {
+    tbody.append("tr")
+        .on("mouseover", function() {
+          d3.select(this).style("background-color", "rgba(211, 234, 255, 0.795)")
+        })
+        .text("No data available.")
+  } else {
+    // Generate all new rows
+    var x = 0;
+    generateNextRow(x, selecting);
+  }
 };
 
 
