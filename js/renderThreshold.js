@@ -112,9 +112,11 @@ function fillPath(path, threshed, fill) {
  * @param {*} display - Indicator to display rows
  */
 function displayTableRows(rows, display) {
-    Object.values(rows).forEach(row => {
-        d3.select(row).style("display", display);
-    })
+    if (rows != undefined) {
+        Object.values(rows).forEach(row => {
+            d3.select(row).style("display", display);
+        })
+    }
 }
 
 /**
