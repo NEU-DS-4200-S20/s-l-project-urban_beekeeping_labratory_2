@@ -230,6 +230,11 @@ function addRow(dPoint, idx) {
  * @param {*} idx - Current row index
  */
 function generateNextRow(idx) {
+  if ((idx + 1) < currentData.length) {
+    generateNextRow(idx + 1, selecting)
+  } else {
+    return;
+  }
   nextRowTimeout = setTimeout(function() {
     var dPoint = currentData[idx];
     if (dPoint != undefined) {
@@ -237,11 +242,8 @@ function generateNextRow(idx) {
     } else {
       return;
     }
-    idx++;
-    if (idx < currentData.length) {
-      generateNextRow(idx, selecting)
-    }
-  }, idx / 10);
+    // idx++;
+  }, 0);
 }
 
 //render table, passes in the current date on the slider to filter and display

@@ -61,7 +61,9 @@ thresh.append("line")
     .call(d3.drag()
         .on("start.interrupt", function() { thresh.interrupt(); })
         .on("start drag", function() { 
-            dehighlight(x.invert(d3.event.x));
+            if ((minVal != undefined)) {
+                dehighlight(x.invert(d3.event.x));
+            }
         }));
 
 /**
@@ -73,7 +75,7 @@ function threshTicks() {
     var startTransX = 22;
     var startTransY = 70;
     // Tick mark increment amount
-    var incr = 2
+    var incr = 2;
     for (var i = minVal; i <= maxVal; i += incr) {
         thresh.append("text")
                 .attr("class", "label")

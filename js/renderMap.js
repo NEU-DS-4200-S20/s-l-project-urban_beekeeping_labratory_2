@@ -115,7 +115,12 @@ svg.on("mousedown", function () {
 	}).on("mouseup", function () {
 	mapBrushing = false;
 	d3.select("#map-brush").remove();
-})
+	}).on("mouseleave", function() {
+		if (mapBrushing) {
+			mapBrushing = false;
+			d3.select("#map-brush").remove();
+		}
+	})
 
 
 // Initialize the Mercator projection.
