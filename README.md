@@ -9,7 +9,7 @@ Visualization can be viewed here at this Github pages link: https://neu-ds-4200-
 
 
 ## Visualization Demo Video 
-<video controls width="100%">
+<video controls width="320" height="240">
       <source src="files/demoVideo.mp4" type="video/mp4">
 </video>
 
