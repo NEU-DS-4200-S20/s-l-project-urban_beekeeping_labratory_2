@@ -1,10 +1,17 @@
-# S-L Project Template
+# S-L Project Urban Beekeeping Laboratory 2
 
-This template will help you get started with your project. Please look through all these materials so you know how to organize your project.
+This is the final project for DS 4200. The final project is to create a visualization for the Urban Beekeeping Laboratory.
+The group members of this project are Sindhu Majeti, Matthew Martin, Hari Muralikrishnan, and Joshua Myles.
 
 ## The GitHub Pages Website
 
-Make sure you publish your project to github pages, and put the URL here: https://neu-ds-4200-s20.github.io/s-l-project-urban_beekeeping_labratory_2/
+Visualization can be viewed here at this Github pages link: https://neu-ds-4200-s20.github.io/s-l-project-urban_beekeeping_labratory_2/
+
+
+## Visualization Demo Video 
+<video controls width="100%">
+      <source src="files/demoVideo.mp4" type="video/mp4">
+</video>
 
 ## Setup
 
@@ -47,30 +54,8 @@ Each folder has an explanatory `README.md` file
 * `images` will contain your screenshots, diagrams, and photos.
 
 * `js` will contain all JavaScript files you write.
-
-  * `visualization.js` is the main code that builds all your visualizations. Each visualization should be built following the [Reusable Chart model](https://bost.ocks.org/mike/chart/)
   
 * `lib` will contain any JavaScript library you use. It currently includes D3.
 
-## Workflow
 
-As you work with your team, you may have issues merging your changes. We recommend you pick one member of the team to be the project manager and deal with merging any pull requests.
-
-Instead of all working directly out of the main `master` branch, you can try adopting a Git branching model for development. See, e.g., [this article by Vincent Driessen](https://nvie.com/posts/a-successful-git-branching-model/) and the included image:
-
-![Image of Git branching model by VIncent Driessen](http://www.ccs.neu.edu/home/cody/courses/shared/git-model.png)
-
-## Grading
-
-Make sure to check these aspects of your work, which are important for every submission:
-
-* Coding was done properly:
-    * Your code was regularly committed and not edited via the GitHub user interface online.
-    * You have clear, commented, and validated code.
-    * Your web page loads properly and looks as expected in the latest Firefox and Chrome browsers.
-    * Any code from other sources (modified or copied straight) is acknowledged.
-
-* Your visualization works as required:
-    * Styles are consistent across views.
-    * None of the visualizations change size or move on the screen as you interact with them.
     
